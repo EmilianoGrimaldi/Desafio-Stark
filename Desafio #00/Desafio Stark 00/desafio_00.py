@@ -1,5 +1,6 @@
 from data_stark import *
 from funciones_stark import *
+import os
 
 while True:
     os.system("cls")

@@ -2,6 +2,18 @@ import os
 from modulo_calculos_stark import *
 from modulo_funciones_imprimir import *
 
+def cambiar_tipo_campo_dic(lista:list, clave_a_cambiar:str, tipo_nuevo_clave:type)->None:
+    """Modifica un tipo de dato a otro, en un campo del diccionario
+
+    Args:
+        lista (list): La lista de datos\n
+        clave_a_cambiar (str): La clave a modificar\n
+        tipo_nuevo_clave (type): El nuevo tipo
+    """
+    for item in lista:
+        if type(item[clave_a_cambiar]) != tipo_nuevo_clave:
+            item[clave_a_cambiar] = tipo_nuevo_clave(item[clave_a_cambiar])
+
 def filtrar_heroes(lista:list, clave:str, valor:str)-> list:
     lista_filtrada = []
     for item in lista:
@@ -22,53 +34,66 @@ def listar_nombre_genero(lista:list, genero:str)->None:
 
 def listar_mas_alto_genero(lista:list, genero:str)->None:
     heroes = filtrar_heroes(lista,"genero",genero)
-    mas_altos = calcular_los_maxs_mins(heroes, "altura",True)
+    mas_altos = calcular_los_maxs_mins(heroes,"altura",True)
     
     if len(mas_altos) == 1:
-        if genero == "M":
-            print("\t\t\t\t\t\t\t########                HEROE MAS ALTO               ########\n")
-            imprimir_heroes(mas_altos)
-        else:
-            print("\t\t\t\t\t\t\t########                HEROINA MAS ALTA               ########\n")
-            imprimir_heroes(mas_altos)
+        match genero: 
+            case "M":
+                print("\t\t\t\t\t\t\t########                HEROE MAS ALTO               ########\n")
+                encabezado_campos_heroes()
+                imprimir_un_heroe(mas_altos[0])
+            case "F":
+                print("\t\t\t\t\t\t\t########                HEROINA MAS ALTA               ########\n")
+                encabezado_campos_heroes()
+                imprimir_un_heroe(mas_altos[0])
     else:
         if len(mas_altos) > 1:
-            if genero == "M":
-                print("\t\t\t\t\t\t\t########                HEROES MAS ALTOS               ########\n")
-                imprimir_heroes(mas_altos)
-            else:
-                print("\t\t\t\t\t\t\t########                HEROINAS MAS ALTAS               ########\n")
-                imprimir_heroes(mas_altos)
+            match genero:
+                case "M":
+                    print("\t\t\t\t\t\t\t########                HEROES MAS ALTOS               ########\n")
+                    encabezado_campos_heroes()
+                    imprimir_heroes(mas_altos)
+                case "F":
+                    print("\t\t\t\t\t\t\t########                HEROINAS MAS ALTAS               ########\n")
+                    encabezado_campos_heroes()
+                    imprimir_heroes(mas_altos)
 
 def listar_mas_bajo_genero(lista:list, genero:str)->None:
     heroes = filtrar_heroes(lista,"genero",genero)
     mas_bajos = calcular_los_maxs_mins(heroes, "altura",False)
     if len(mas_bajos) == 1:
-        if genero == "M":
-            print("\t\t\t\t\t\t\t########                HEROE MAS BAJO               ########\n")
-            imprimir_heroes(mas_bajos)
-        else:
-            print("\t\t\t\t\t\t\t########                HEROINA MAS BAJA               ########\n")
-            imprimir_heroes(mas_bajos)
+        match genero: 
+            case "M":
+                print("\t\t\t\t\t\t\t########                HEROE MAS BAJO               ########\n")
+                encabezado_campos_heroes()
+                imprimir_un_heroe(mas_bajos[0])
+            case "F":
+                print("\t\t\t\t\t\t\t########                HEROINA MAS BAJA               ########\n")
+                encabezado_campos_heroes()
+                imprimir_un_heroe(mas_bajos[0])
     else:
         if len(mas_bajos) > 1:
-            if genero == "M":
-                print("\t\t\t\t\t\t\t########                HEROES MAS BAJOS               ########\n")
-                imprimir_heroes(mas_bajos)
-            else:
-                print("\t\t\t\t\t\t\t########                HEROINAS MAS BAJAS               ########\n")
-                imprimir_heroes(mas_bajos)
+            match genero: 
+                case "M":
+                    print("\t\t\t\t\t\t\t########                HEROES MAS BAJOS               ########\n")
+                    encabezado_campos_heroes()
+                    imprimir_heroes(mas_bajos)
+                case "F":
+                    print("\t\t\t\t\t\t\t########                HEROINAS MAS BAJAS               ########\n")
+                    encabezado_campos_heroes()
+                    imprimir_heroes(mas_bajos)
 
 def promediar_altura_genero(lista:list,genero:str)->None:
     heroes = filtrar_heroes(lista,"genero",genero)
     acumulador_edad = acumulador(heroes,"altura")
     promedio = sacar_promedio(acumulador_edad, len(heroes))
-    if genero == "M":
-        print("\t\t\t\t\t\t\t########                ALTURA PROMEDIO HEROES               ########\n")
-        print("La altura promedio de los heroes es {:.2f}".format(promedio))
-    else:
-        print("\t\t\t\t\t\t\t########                ALTURA PROMEDIO HEROINAS               ########\n")
-        print("La altura promedio de las heroinas es {:.2f}".format(promedio))
+    match genero: 
+        case "M":
+            print("\t\t\t\t\t\t\t########                ALTURA PROMEDIO HEROES               ########\n")
+            print("La altura promedio de los heroes es {:.2f}".format(promedio))
+        case "F":
+            print("\t\t\t\t\t\t\t########                ALTURA PROMEDIO HEROINAS               ########\n")
+            print("La altura promedio de las heroinas es {:.2f}".format(promedio))
 
 
 def nombrar_mayor_altura_genero(lista:list,genero:str)->None:
@@ -76,22 +101,24 @@ def nombrar_mayor_altura_genero(lista:list,genero:str)->None:
     lista_alturas = calcular_los_maxs_mins(heroes, "altura",True)
 
     if len(lista_alturas) == 1:
-        if genero == "M":
-            print("\t\t\t\t\t\t\t########                NOMBRE DE HEROE MAS ALTO               ########\n")
-            print("El heroe mas alto es {}".format(lista_alturas[0]["nombre"]))
-        else:
-            print("\t\t\t\t\t\t\t########                NOMBRE DE HEROINA MAS ALTA               ########\n")    
-            print("La heroina mas alta es {}".format(lista_alturas[0]["nombre"]))
+        match genero: 
+            case "M":
+                print("\t\t\t\t\t\t\t########                NOMBRE DE HEROE MAS ALTO               ########\n")
+                print("El heroe mas alto es {}".format(lista_alturas[0]["nombre"]))
+            case "F":
+                print("\t\t\t\t\t\t\t########                NOMBRE DE HEROINA MAS ALTA               ########\n")    
+                print("La heroina mas alta es {}".format(lista_alturas[0]["nombre"]))
     else:
         if len(lista_alturas) > 1:
-            if genero == "M":
-                print("\t\t\t\t\t\t\t########                NOMBRES DE HEROES MAS ALTOS               ########\n")
-                print("Los heroes mas altos son")
-                imprimir_lista_por_campo(lista_alturas,"nombre")
-            else:
-                print("\t\t\t\t\t\t\t########                NOMBRES DE HEROINAS MAS ALTAS               ########\n")
-                print("Las heroinas mas altas son")
-                imprimir_lista_por_campo(lista_alturas,"nombre")
+            match genero:
+                case "M":
+                    print("\t\t\t\t\t\t\t########                NOMBRES DE HEROES MAS ALTOS               ########\n")
+                    print("Los heroes mas altos son")
+                    imprimir_lista_por_campo(lista_alturas,"nombre")
+                case "F":
+                    print("\t\t\t\t\t\t\t########                NOMBRES DE HEROINAS MAS ALTAS               ########\n")
+                    print("Las heroinas mas altas son")
+                    imprimir_lista_por_campo(lista_alturas,"nombre")
 
 def nombrar_menor_altura_genero(lista:list,genero:str)->None:
 
@@ -99,22 +126,24 @@ def nombrar_menor_altura_genero(lista:list,genero:str)->None:
     lista_alturas = calcular_los_maxs_mins(heroes, "altura",False)
 
     if len(lista_alturas) == 1:
-        if genero == "M":
-            print("\t\t\t\t\t\t\t########                NOMBRE DE HEROE MAS BAJO               ########\n")
-            print("El heroe mas bajo es {}".format(lista_alturas[0]["nombre"]))
-        else:
-            print("\t\t\t\t\t\t\t########                NOMBRE DE HEROINA MAS BAJA               ########\n")    
-            print("La heroina mas baja es {}".format(lista_alturas[0]["nombre"]))
+        match genero:
+            case "M":
+                print("\t\t\t\t\t\t\t########                NOMBRE DE HEROE MAS BAJO               ########\n")
+                print("El heroe mas bajo es {}".format(lista_alturas[0]["nombre"]))
+            case "F":
+                print("\t\t\t\t\t\t\t########                NOMBRE DE HEROINA MAS BAJA               ########\n")    
+                print("La heroina mas baja es {}".format(lista_alturas[0]["nombre"]))
     else:
         if len(lista_alturas) > 1:
-            if genero == "M":
-                print("\t\t\t\t\t\t\t########                NOMBRES DE HEROES MAS BAJOS               ########\n")
-                print("Los heroes mas bajos son")
-                imprimir_lista_por_campo(lista_alturas,"nombre")
-            else:
-                print("\t\t\t\t\t\t\t########                NOMBRES DE HEROINAS MAS BAJAS               ########\n")
-                print("Las heroinas mas bajas son")
-                imprimir_lista_por_campo(lista_alturas,"nombre")
+            match genero:
+                case "M":
+                    print("\t\t\t\t\t\t\t########                NOMBRES DE HEROES MAS BAJOS               ########\n")
+                    print("Los heroes mas bajos son")
+                    imprimir_lista_por_campo(lista_alturas,"nombre")
+                case "F":
+                    print("\t\t\t\t\t\t\t########                NOMBRES DE HEROINAS MAS BAJAS               ########\n")
+                    print("Las heroinas mas bajas son")
+                    imprimir_lista_por_campo(lista_alturas,"nombre")
 
 def contar_items_categoria(lista:list,clave:str)->dict:
     #Creo un dic vacio para ir guardando los items como clave y la cantidad como valor
@@ -199,7 +228,9 @@ def listar_heroes_por_inteligencia(lista:list)-> None:
     mostrar_heroe_categoria(heroes_por_inteligencia)
 
 def ingresar_menu_desafio_01(lista:list, opcion:str)->None:
-     # Inicializo los valores de las claves vacias con "No tiene"
+    cambiar_tipo_campo_dic(lista,"altura",float)
+    cambiar_tipo_campo_dic(lista,"peso",float)
+    # Inicializo los valores de las claves vacias con "No tiene"
     inicializar_clave_vacia(lista,"color_pelo","No tiene")
     inicializar_clave_vacia(lista,"inteligencia","No tiene")
     match opcion:   

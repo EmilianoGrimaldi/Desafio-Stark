@@ -45,3 +45,4 @@ def menu(titulo:str,opciones:str)->str:
     print(opciones)
     opcion = input("Ingrese una opcion\n")
     return opcion
+

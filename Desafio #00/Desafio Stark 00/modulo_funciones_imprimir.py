@@ -29,3 +29,19 @@ def imprimir_lista_por_campo(lista:list, campo:str)->None:
     """
     for heroe in lista:
         print(heroe[campo])
+
+def menu(titulo:str,opciones:str)->str:
+    """Muestra un menu con titulo y opciones personalizables
+
+    Args:
+        titulo (str): El titulo del menu\n
+        opciones (str): Las opciones del menu
+
+    Returns:
+        str: La opcion
+    """
+    print("####             {}             ####\n".format(titulo))
+    print("-----------------------------------------------------\n")
+    print(opciones)
+    opcion = input("Ingrese una opcion\n")
+    return opcion

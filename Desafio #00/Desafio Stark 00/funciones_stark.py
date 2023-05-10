@@ -1,22 +1,5 @@
 from modulo_calculos_stark import *
 from modulo_funciones_imprimir import *
-import os
-
-def menu(titulo:str,opciones:str)->str:
-    """Muestra un menu con titulo y opciones personalizables
-
-    Args:
-        titulo (str): El titulo del menu\n
-        opciones (str): Las opciones del menu
-
-    Returns:
-        str: La opcion
-    """
-    print("####             {}             ####\n".format(titulo))
-    print("-----------------------------------------------------\n")
-    print(opciones)
-    opcion = input("Ingrese una opcion\n")
-    return opcion
 
 def cambiar_tipo_campo_dic(lista:list, clave_a_cambiar:str, tipo_nuevo_clave:type)->None:
     """Modifica un tipo de dato a otro, en un campo del diccionario
