@@ -364,7 +364,7 @@ def stark_calcular_imprimir_heroe_genero(lista_heroes:list,genero:str, key_heroe
     
     if len(lista_heroes) > 0 and type(genero) == str and type(key_heroe) == str and type(calculo_realizar) == str: 
         heroes = filtrar_heroes(lista_heroes,"genero",genero)
-        max_min = guardar_los_max_min(heroes, calculo_realizar,key_heroe)
+        max_min = calcular_los_maxs_mins(heroes, calculo_realizar,key_heroe)
         if len(max_min) == 1:
             match genero:
                 case "M":
@@ -380,7 +380,7 @@ def stark_calcular_imprimir_heroe_genero(lista_heroes:list,genero:str, key_heroe
                         stark_imprimir_nombres_campo(max_min,key_heroe)
         
 
-def guardar_los_max_min(lista_heroes:list, calculo_realizar:str,key_heroe:str)->list:
+def calcular_los_maxs_mins(lista_heroes:list, calculo_realizar:str,key_heroe:str)->list:
     aux_max_min = []
     heroe_max_min = calcular_max_min_dato(lista_heroes,calculo_realizar,key_heroe)
     for heroe in lista_heroes:
