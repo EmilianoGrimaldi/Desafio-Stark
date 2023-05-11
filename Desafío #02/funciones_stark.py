@@ -1,6 +1,6 @@
 from data_stark import *
 from funciones_calculos_stark import *
-import os 
+import os
 
 def copiar_datos(lista_actual:list,lista_nueva:list)->None:
     """Copia los datos originales en una lista nueva
@@ -153,7 +153,7 @@ def stark_calcular_imprimir_promedio_altura(lista_heroes):
 def imprimir_menu()->None:
     print("####             STARK INDUSTRIES             ####\n")
     print("-----------------------------------------------------\n")
-    imprimir_dato(" 1 --> Normalizar datos\n 2 --> Imprimir nombre de todos los heroes\n 3 --> Imprimir nombre y altura de los heroes\n 4 --> El heroe mas alto\n 5 --> El heroe mas bajo\n 6 --> Altura promedio de los heroes\n 7 --> Nombre del heroe mas alto\n 8 --> Nombre del heroe mas bajo\n 9 --> Heroe mas pesado\n 10 --> Heroe menos pesado\n11 --> Sub menu\n12 --> Salir\n\n")
+    imprimir_dato(" 1 --> Normalizar datos\n 2 --> Imprimir nombre de todos los heroes\n 3 --> Imprimir nombre y altura de los heroes\n 4 --> El heroe mas alto\n 5 --> El heroe mas bajo\n 6 --> Altura promedio de los heroes\n 7 --> Nombre del heroe mas alto\n 8 --> Nombre del heroe mas bajo\n 9 --> Heroe mas pesado\n10 --> Heroe menos pesado\n11 --> Salir\n\n")
 
 
 # 6.3. Crear la función 'stark_menu_principal' la cual se encargará de imprimir el
@@ -185,7 +185,7 @@ def stark_marvel_app(lista_heroes:list):
             os.system("cls")
             while True:
                 opcion = stark_menu_principal()
-                if opcion >= 1 and opcion <= 12:
+                if opcion >= 1 and opcion <= 11:
                     break
                 else:
                     print("Opcion opcion incorrecta")
@@ -252,10 +252,13 @@ def stark_marvel_app(lista_heroes:list):
                     else:
                         print("Se deben normalizar los datos primero antes de calcular")
                 case 11:
-                    #sub menu
-                    pass
-                case 12:
-                    break
+                    while True:
+                        confirmacion = input("¿Seguro desea salir? s/n\n").lower()
+                        if confirmacion == "s" or confirmacion == "n": 
+                            break
+                    if confirmacion == "s":
+                        break
             os.system("pause")
     else:
         print("Error! Lista vacia")
+        

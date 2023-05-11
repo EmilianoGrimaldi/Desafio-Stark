@@ -1,3 +1,4 @@
+from data_stark import *
 from funciones_stark import *
 
 heroes = []
