@@ -23,6 +23,14 @@ stark_normalizar_datos(heroes,"fuerza",float)
 # Ejemplo de la salida de la función para Howard the Duck:
 # H.D.
 def extraer_iniciales(nombre_heroe:str)->str:
+    """_summary_
+
+    Args:
+        nombre_heroe (str): _description_
+
+    Returns:
+        str: _description_
+    """
     
     if type(nombre_heroe) == str and len(nombre_heroe) > 0:
         

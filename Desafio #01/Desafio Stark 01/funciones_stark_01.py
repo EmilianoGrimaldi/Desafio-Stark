@@ -53,10 +53,10 @@ def listar_nombre_genero(lista:list, genero:str)->None:
     heroes = filtrar_heroes(lista,"genero",genero)
     if genero == "M":
         print("\t NOMBRE DE CADA HEROE\n")
-        imprimir_lista_por_campo(heroes,"nombre")
     else:
         print("\t NOMBRE DE CADA HEROINA\n")
-        imprimir_lista_por_campo(heroes,"nombre")
+        
+    imprimir_lista_por_campo(heroes,"nombre")
 
 def calcular_listar_mas_alto_genero(lista:list, genero:str)->None:
     """Calcula y lista la maxima altura de los heroes por genero
@@ -73,9 +73,6 @@ def calcular_listar_mas_alto_genero(lista:list, genero:str)->None:
             print("\n\t HEROE MAS ALTO")
         else:
             print("\n\t HEROINA MAS ALTA")
-            
-        encabezado_campos_heroes()    
-        imprimir_un_heroe(mas_altos[0])
     else:
         if len(mas_altos) > 1:
             if genero == "M":
@@ -83,8 +80,8 @@ def calcular_listar_mas_alto_genero(lista:list, genero:str)->None:
             else:
                 print("\n\t HEROINAS MAS ALTAS")
                 
-            encabezado_campos_heroes()    
-            imprimir_heroes(mas_altos)
+    encabezado_campos_heroes()    
+    imprimir_heroes(mas_altos)
 
 def calcular_listar_mas_bajo_genero(lista:list, genero:str)->None:
     """Calcula y lista la minima altura de los heroes por genero
@@ -100,9 +97,6 @@ def calcular_listar_mas_bajo_genero(lista:list, genero:str)->None:
             print("\n\t HEROE MAS BAJO")
         else:
             print("\n\t HEROINA MAS BAJA")
-            
-        encabezado_campos_heroes()
-        imprimir_un_heroe(mas_bajos[0])         
     else:
         if len(mas_bajos) > 1:
             if genero == "M":
@@ -110,8 +104,8 @@ def calcular_listar_mas_bajo_genero(lista:list, genero:str)->None:
             else:
                 print("\n\t HEROINAS MAS BAJAS")
                 
-            encabezado_campos_heroes()
-            imprimir_heroes(mas_bajos)
+    encabezado_campos_heroes()
+    imprimir_heroes(mas_bajos)
                     
 
 def promediar_altura_genero(lista:list,genero:str)->None:
@@ -206,8 +200,8 @@ def contar_cantidad_campo(lista:list,clave:str)->dict:
     
     return dic_aux
     
-def listar_cantidad_tipo(lista:list, clave:str):
-    """Muestra la cantidad de valores dentro de un campo en la lista de diccionarios
+def listar_cantidad_por_criterio(lista:list, clave:str):
+    """Muestra la cantidad de valores iguales dentro de un campo en la lista de diccionarios
 
     Args:
         lista (list): Lista de diccionarios\n
@@ -229,17 +223,17 @@ def filtrar_heroe_categoria(lista:list, clave:str)-> dict:
     """
     dic = {}
     
-    for item in lista:
-        value = item[clave].capitalize()
-        if value in dic:
-            dic[value].append(item)
+    for heroe in lista:
+        criterio = heroe[clave].capitalize()
+        if criterio in dic:
+            dic[criterio].append(heroe)
         else:
-            dic[value] = [item]
+            dic[criterio] = [heroe]
             
     return dic
 
 def mostrar_heroe_categoria(diccionario:dict)-> None:
-    """Imprime los diccionarios de los heroes filtrados por los valores iguales dentro de un campo
+    """Imprime los heroes filtrados por los valores iguales dentro de un campo
 
     Args:
         diccionario (dict): Diccionario filtrado
@@ -299,13 +293,13 @@ def menu_desafio_01(lista:list, opcion:str)->None:
             calcular_nombrar_menor_altura_genero(lista,"F")
         case "13":
             print("      CANTIDAD DE TIPOS DE COLOR DE OJOS\n")
-            listar_cantidad_tipo(lista,"color_ojos")   
+            listar_cantidad_por_criterio(lista,"color_ojos")   
         case "14":
             print("      CANTIDAD DE TIPOS DE COLOR DE PELO\n")
-            listar_cantidad_tipo(lista,"color_pelo") 
+            listar_cantidad_por_criterio(lista,"color_pelo") 
         case "15":
             print("      CANTIDAD DE TIPOS DE INTELIGENCIA\n") 
-            listar_cantidad_tipo(lista,"inteligencia") 
+            listar_cantidad_por_criterio(lista,"inteligencia") 
         case "16":
             print("\t LISTA HEROES POR COLOR DE OJOS")
             filtrar_mostrar_heroe_categoria(lista,"color_ojos")

@@ -52,14 +52,13 @@ def calcular_mostrar_heroe_mas_alto(lista:list)->None:
     
     lista_mas_altos = calcular_los_maxs_mins(lista, "altura",True)
     if len(lista_mas_altos) == 1:
-        print("\n\t\t\t\t\t\t\t\tEL HEROE MAS ALTO")
-        encabezado_campos_heroes()
-        imprimir_un_heroe(lista_mas_altos[0])
+        print("\n\tEL HEROE MAS ALTO")
     else:
         if len(lista_mas_altos) > 1:
-            print("\n\t\t\t\t\t\t\t\tLOS HEROES MAS ALTOS")
-            encabezado_campos_heroes()
-            imprimir_heroes(lista_mas_altos)
+            print("\n\tLOS HEROES MAS ALTOS")
+
+    encabezado_campos_heroes()
+    imprimir_heroes(lista_mas_altos)
     
 def calcular_mostrar_heroe_mas_bajo(lista:list)->None:
     """Calcula y muestra el heroe mas bajo o los heroes mas bajos si hay igualdad
@@ -69,14 +68,13 @@ def calcular_mostrar_heroe_mas_bajo(lista:list)->None:
     """
     lista_mas_bajos = calcular_los_maxs_mins(lista, "altura", False)
     if len(lista_mas_bajos) == 1:
-        print("\n\t\t\t\t\t\t\t\tEL HEROE MAS BAJO")
-        encabezado_campos_heroes()
-        imprimir_un_heroe(lista_mas_bajos[0])
+        print("\n\tEL HEROE MAS BAJO")
     else:
         if len(lista_mas_bajos) > 1:
-            print("\n\t\t\t\t\t\t\t\tLOS HEROES MAS BAJOS")
-            encabezado_campos_heroes()
-            imprimir_heroes(lista_mas_bajos)
+            print("\n\tLOS HEROES MAS BAJOS")
+
+    encabezado_campos_heroes()
+    imprimir_heroes(lista_mas_bajos)
 
 def calcular_mostrar_promedio_alturas_heroes(lista:list)->None:
     """
@@ -84,7 +82,7 @@ def calcular_mostrar_promedio_alturas_heroes(lista:list)->None:
     Args:
         lista (list): La lista de datos
     """
-    print("\n\t\t\t\t\t\t\t\tALTURA PROMEDIO DE LOS SUPERHEROES")
+    print("\n\tALTURA PROMEDIO DE LOS SUPERHEROES\n")
     altura_total = acumulador(lista,"altura")
     promedio_altura = sacar_promedio(altura_total, len(lista))
     print("La altura promedio de los heroes es {:.2f}".format(promedio_altura))
@@ -99,13 +97,11 @@ def calcular_mostrar_nombre_heroe_mas_alto(lista:list)->None:
     lista_aux = calcular_los_maxs_mins(lista, "altura",True)
     
     if len(lista_aux) == 1:
-        print("\n\t\t\t\t\t\t\t\tNOMBRE DEL HEROE MAS ALTO")
-        print(f"El heroe mas alto es {lista_aux[0]['nombre']}")
+        print("\n\tNOMBRE DEL HEROE MAS ALTO\n")
     else:
         if len(lista_aux) > 1:
-            print("\n\t\t\t\t\t\t\t\tNOMBRES DE LOS HEROES MAS ALTOS")
-            print("Los heroes mas altos son")
-            imprimir_lista_por_campo(lista_aux,"nombre")
+            print("\n\tNOMBRES DE LOS HEROES MAS ALTOS\n")
+    imprimir_lista_por_campo(lista_aux,"nombre")
 
 def calcular_mostrar_nombre_heroe_mas_bajo(lista:list)->None:
     """Calcula y muestra el nombre del heroe mas bajo o los nombres de los heroes mas bajos si hay igualdad
@@ -116,13 +112,12 @@ def calcular_mostrar_nombre_heroe_mas_bajo(lista:list)->None:
     lista_mas_bajos = calcular_los_maxs_mins(lista, "altura",False)
     
     if len(lista_mas_bajos) == 1:
-        print("\n\t\t\t\t\t\t\t\tNOMBRE DE HEROE MAS BAJO")
-        print("El heroe mas bajo es {}".format(lista_mas_bajos[0]["nombre"]))
+        print("\n\tNOMBRE DE HEROE MAS BAJO\n")
     else:
         if len(lista_mas_bajos) > 1:
-            print("\n\t\t\t\t\t\t\t\tNOMBRES DE LOS HEROES MAS BAJOS")
-            print("Los heroes mas bajos son\n")
-            imprimir_lista_por_campo(lista_mas_bajos,"nombre")
+            print("\n\tNOMBRES DE LOS HEROES MAS BAJOS\n")
+
+    imprimir_lista_por_campo(lista_mas_bajos,"nombre")
 
 def calcular_mostrar_maximo_peso_heroe(lista:list)->None:
     """Calcula y muestra el heroe mas pesado o los heroes mas pesados si hay igualdad
@@ -132,14 +127,13 @@ def calcular_mostrar_maximo_peso_heroe(lista:list)->None:
     """
     lista_mas_pesados = calcular_los_maxs_mins(lista, "peso",True)
     if len(lista_mas_pesados) == 1:
-        print("\n\t\t\t\t\t\t\t\tHEROE MAS PESADO")
-        encabezado_campos_heroes()
-        imprimir_un_heroe(lista_mas_pesados[0])
+        print("\n\tHEROE MAS PESADO")
     else:
         if len(lista_mas_pesados) > 1:
-            print("\n\t\t\t\t\t\t\t\tHEROES MAS PESADOS")
-            encabezado_campos_heroes()
-            imprimir_heroes(lista_mas_pesados)
+            print("\n\tHEROES MAS PESADOS")
+
+    encabezado_campos_heroes()
+    imprimir_heroes(lista_mas_pesados)
                    
 def calcular_mostrar_minimo_peso_heroe(lista:list)->None:
     """Calcula y muestra el heroe menos pesado o los heroes menos pesados si hay igualdad
@@ -148,15 +142,15 @@ def calcular_mostrar_minimo_peso_heroe(lista:list)->None:
         lista (list): La lista de datos
     """
     lista_menos_pesados = calcular_los_maxs_mins(lista, "peso",False)
+
     if len(lista_menos_pesados) == 1:
-        print("\n\t\t\t\t\t\t\t\tHEROE MENOS PESADO")
-        encabezado_campos_heroes()
-        imprimir_un_heroe(lista_menos_pesados[0])
+        print("\n\tHEROE MENOS PESADO")
     else:
         if len(lista_menos_pesados) > 1:
-            print("\n\t\t\t\t\t\t\t\tHEROES MENOS PESADOS")
-            encabezado_campos_heroes()
-            imprimir_heroes(lista_menos_pesados)
+            print("\n\tHEROES MENOS PESADOS")
+
+    encabezado_campos_heroes()
+    imprimir_heroes(lista_menos_pesados)
 
 
 

@@ -2,18 +2,21 @@ from data_stark import *
 from funciones_calculos_stark import *
 import os
 
-def copiar_datos(lista_actual:list,lista_nueva:list)->None:
+def copiar_datos(lista_actual:list,lista_nueva:list)->int:
     """Copia los datos originales en una lista nueva
 
     Args:
         lista_actual (list): Lista origen\n
         lista_nueva (list): Lista destino
+    
+    Returns:
+        int: -1 si sale mal
     """
     if len(lista_actual) > 0:
         for item in lista_actual:
             lista_nueva.append(item)
     else:
-        print("ERROR! Lista vacia")
+        return -1
 
 
 # 0. Crear la función 'stark_normalizar_datos' la cual recibirá por parámetro la lista de héroes. La función deberá:
@@ -21,7 +24,14 @@ def copiar_datos(lista_actual:list,lista_nueva:list)->None:
 # ● Validar primero que el tipo de dato no sea del tipo al cual será casteado. Por ejemplo si una key debería ser entero (ejemplo edad) verificar antes que no se encuentre ya en ese tipo de dato.
 # ● Si al menos un dato fue modificado, la función deberá imprimir como mensaje ‘Datos normalizados’, caso contrario no imprimirá nada.
 # ● Validar que la lista de héroes no esté vacía para realizar sus acciones, caso contrario imprimirá el mensaje: “Error: Lista de héroes vacía”
-def stark_normalizar_datos(lista_heroes,campo,tipo_nuevo):
+def stark_normalizar_datos(lista_heroes:list,campo:str,tipo_nuevo:str)->None:
+    """Recorre la lista y convierte a otro tipo de dato las claves o keys 
+
+    Args:
+        lista_heroes (list): Lista de diccionario de los heroes\n
+        campo (str): Campo o key del diccionario\n
+        tipo_nuevo (str): Tipo a convertir el dato
+    """
     
     datos_normalizados = False
     
@@ -45,6 +55,14 @@ def stark_normalizar_datos(lista_heroes,campo,tipo_nuevo):
 # Nombre: Howard the Duck
 
 def obtener_nombre(un_heroe:dict)->str:
+    """Obtiene el nombre de un heroe y lo formatea
+
+    Args:
+        un_heroe (dict): Diccionario del heroe
+
+    Returns:
+        str: El nombre formateado
+    """
     
     if not len(un_heroe) == 0:
         nombre_heroe = f"Nombre: {un_heroe['nombre']}"
@@ -55,7 +73,12 @@ def obtener_nombre(un_heroe:dict)->str:
 # 1.2. Crear la función 'imprimir_dato' la cual recibirá por parámetro un string y
 # deberá imprimirlo en la consola. La función no tendrá retorno.
 
-def imprimir_dato(dato:any)->None:
+def imprimir_dato(dato:str)->None:
+    """Imprime un dato
+
+    Args:
+        dato (str): El dato a imprimir
+    """
     print(f"{dato:2}")
     
 
@@ -67,6 +90,14 @@ def imprimir_dato(dato:any)->None:
 # Con este se resuelve el Ej 1 del desafío #00
 
 def stark_imprimir_nombres_heroes(lista_heroes:list)->int:
+    """Imprime el nombre de los heroes
+
+    Args:
+        lista_heroes (list): Lista de diccionarios de heroes
+
+    Returns:
+        int: Si salio mal -1
+    """
     if len(lista_heroes) > 0:
         for heroe in lista_heroes:
             nombre_heroe = obtener_nombre(heroe)
@@ -81,6 +112,15 @@ def stark_imprimir_nombres_heroes(lista_heroes:list)->int:
 # Nombre: Venom | fuerza: 500
 
 def obtener_nombre_y_dato(un_heroe:dict,key_heroe:str)->str:
+    """Obtiene el nombre y el dato de un heroe
+
+    Args:
+        un_heroe (dict): El diccionario del heroe\n
+        key_heroe (str): El dato del heroe
+
+    Returns:
+        str: El nombre y dato formateados
+    """
     if not len(un_heroe) == 0 and type(key_heroe) == str:
         try:
             nombre_altura = f"Nombre: {un_heroe['nombre']:18s} | {key_heroe}: {un_heroe[key_heroe]}"
@@ -98,6 +138,14 @@ def obtener_nombre_y_dato(un_heroe:dict,key_heroe:str)->str:
 # Con este se resuelve el Ej 2 del desafío #00
 
 def stark_imprimir_nombres_alturas(lista_heroes:list)->int:
+    """Imprime los nombres y las alturas de los heroes
+
+    Args:
+        lista_heroes (list): Lista de diccionarios de heroes
+
+    Returns:
+        int: Si sale mal -1
+    """
     if len(lista_heroes) > 0:
         for heroe in lista_heroes:
             print(obtener_nombre_y_dato(heroe,"altura"))
@@ -111,7 +159,6 @@ def stark_imprimir_nombres_alturas(lista_heroes:list)->int:
 # valores ‘maximo’ o ‘minimo’
 # ● Un string que representa la key del dato a calcular, por ejemplo: ‘altura’,
 # ‘peso’, ‘edad’, etc.
-
 # Con este se resuelve el Ej 3, Ej 4, Ej 6 y Ej 7 del desafío #00
 # La función deberá obtener el héroe que cumpla dichas condiciones, imprimir
 # su nombre y el valor calculado. Reutilizar las funciones de los puntos:
@@ -123,7 +170,17 @@ def stark_imprimir_nombres_alturas(lista_heroes:list)->int:
 # Ejemplo de salida:
 # Mayor altura: Nombre: Howard the Duck | altura: 79.34
 
-def stark_calcular_imprimir_heroe(lista_heroes:list,calculo_realizar:str,key_heroe:str)->None:
+def stark_calcular_imprimir_heroe(lista_heroes:list,calculo_realizar:str,key_heroe:str)->int:
+    """Calcula el heroe minimo o maximo de una key del heroe e imprime el heroe
+
+    Args:
+        lista_heroes (list): Lista de diccionarios de heroes\n
+        calculo_realizar (str): El valor 'maximo' o 'minimo'\n
+        key_heroe (str): Clave a obtener el max o min
+
+    Returns:
+        int: -1 si sale mal
+    """
      
     if len(lista_heroes) > 0 and type(key_heroe) == str and type(calculo_realizar) == str:
         heroe_max_o_min = calcular_max_min_dato(lista_heroes,calculo_realizar,key_heroe)
@@ -140,9 +197,17 @@ def stark_calcular_imprimir_heroe(lista_heroes:list,calculo_realizar:str,key_her
 # 5.3
 # Con este se resuelve el Ej 5 del desafío #00
 
-def stark_calcular_imprimir_promedio_altura(lista_heroes):
+def stark_calcular_imprimir_promedio_altura(lista_heroes:list)->int:
+    """Calcula e imprime la altura promedio de los heroes
+
+    Args:
+        lista_heroes (list): Lista de diccionarios de heroes
+
+    Returns:
+        int: -1 si sale mal
+    """
     if len(lista_heroes) > 0:
-        altura_promedio = calcular_promedio(lista_heroes,"altura")#5.3
+        altura_promedio = calcular_promedio(lista_heroes,"altura")
         imprimir_dato(altura_promedio)
     else:
         return -1
@@ -151,6 +216,8 @@ def stark_calcular_imprimir_promedio_altura(lista_heroes):
 # pantalla, el cual permite utilizar toda la funcionalidad ya programada. Se
 # deberá reutilizar la función antes creada encargada de imprimir un string (1.2)
 def imprimir_menu()->None:
+    """Imprime el menu de opciones
+    """
     print("####             STARK INDUSTRIES             ####\n")
     print("-----------------------------------------------------\n")
     imprimir_dato(" 1 --> Normalizar datos\n 2 --> Imprimir nombre de todos los heroes\n 3 --> Imprimir nombre y altura de los heroes\n 4 --> El heroe mas alto\n 5 --> El heroe mas bajo\n 6 --> Altura promedio de los heroes\n 7 --> Nombre del heroe mas alto\n 8 --> Nombre del heroe mas bajo\n 9 --> Heroe mas pesado\n10 --> Heroe menos pesado\n11 --> Salir\n\n")
@@ -162,7 +229,12 @@ def imprimir_menu()->None:
 # lo retornara casteado a entero, caso contrario retorna -1. Reutilizar las
 # funciones del ejercicio 6.1 y 6.2
 
-def stark_menu_principal():
+def stark_menu_principal()->int:
+    """Muestra el menu, pide una opcion y la castea
+
+    Returns:
+        int: La opcion casteada a int(entero) o -1 si algo sale mal
+    """
     imprimir_menu()
     opcion = input("Ingrese una opcion\n")
     if validar_entero(opcion):
@@ -178,6 +250,11 @@ def stark_menu_principal():
 # incorrecta y volver a pedir el dato al usuario. Reutilizar las funciones con
 # prefijo 'stark_' donde crea correspondiente.
 def stark_marvel_app(lista_heroes:list):
+    """Muestra el menu con las opciones, pide una opcion y realiza la accion de dicha opcion
+
+    Args:
+        lista_heroes (list): Lista de diccionarios de heroes
+    """
     flag_normalizar_datos = False
     
     if len(lista_heroes) > 0:
@@ -197,30 +274,33 @@ def stark_marvel_app(lista_heroes:list):
                         stark_normalizar_datos(lista_heroes,"peso",float)
                         stark_normalizar_datos(lista_heroes,"fuerza",float)
                         flag_normalizar_datos = True
-                    else:
-                        print("Los datos ya fueron normalizados")
                 case 2:
                     print("\t LISTA DE NOMBRES DE SUPERHEROES\n")
-                    stark_imprimir_nombres_heroes(lista_heroes)
+                    if stark_imprimir_nombres_heroes(lista_heroes) != -1:
+                        pass
                 case 3:
                     print("\t NOMBRES Y ALTURAS DE HEROES\n")
-                    stark_imprimir_nombres_alturas(lista_heroes)
+                    if stark_imprimir_nombres_alturas(lista_heroes) != -1:
+                        pass
                 case 4:
                     if flag_normalizar_datos:
                         print("\t EL HEROE MAS ALTO\n")
-                        stark_calcular_imprimir_heroe(lista_heroes,"maximo","altura")
+                        if stark_calcular_imprimir_heroe(lista_heroes,"maximo","altura") != -1:
+                            pass
                     else:
                         print("Se deben normalizar los datos primero antes de calcular")
                 case 5:
                     if flag_normalizar_datos:
                         print("\t EL HEROE MAS BAJO\n")
-                        stark_calcular_imprimir_heroe(lista_heroes,"minimo","altura")
+                        if stark_calcular_imprimir_heroe(lista_heroes,"minimo","altura") != -1:
+                            pass
                     else:
                         print("Se deben normalizar los datos primero antes de calcular")
                 case 6:
                     if flag_normalizar_datos:
                         print("\t ALTURA PROMEDIO DE LOS SUPERHEROES\n")
-                        stark_calcular_imprimir_promedio_altura(lista_heroes)
+                        if stark_calcular_imprimir_promedio_altura(lista_heroes) != -1:
+                            pass
                     else:
                         print("Se deben normalizar los datos primero antes de calcular")
                 case 7:
@@ -242,13 +322,15 @@ def stark_marvel_app(lista_heroes:list):
                 case 9:
                     if flag_normalizar_datos:
                         print("\t HEROE MAS PESADO\n")
-                        stark_calcular_imprimir_heroe(lista_heroes,"maximo","peso")
+                        if stark_calcular_imprimir_heroe(lista_heroes,"maximo","peso") != -1:
+                            pass
                     else:
                         print("Se deben normalizar los datos primero antes de calcular")
                 case 10:
                     if flag_normalizar_datos:
                         print("\t HEROE MENOS PESADO\n")
-                        stark_calcular_imprimir_heroe(lista_heroes,"minimo","peso")
+                        if stark_calcular_imprimir_heroe(lista_heroes,"minimo","peso") != -1:
+                            pass
                     else:
                         print("Se deben normalizar los datos primero antes de calcular")
                 case 11:
