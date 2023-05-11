@@ -79,7 +79,7 @@ def imprimir_dato(dato:str)->None:
     Args:
         dato (str): El dato a imprimir
     """
-    print(f"{dato:2}")
+    print(dato)
     
 
 # 1.3. Crear la función 'stark_imprimir_nombres_heroes' la cual recibirá por
@@ -279,9 +279,12 @@ def stark_marvel_app(lista_heroes:list):
                     if stark_imprimir_nombres_heroes(lista_heroes) != -1:
                         pass
                 case 3:
-                    print("\t NOMBRES Y ALTURAS DE HEROES\n")
-                    if stark_imprimir_nombres_alturas(lista_heroes) != -1:
-                        pass
+                    if flag_normalizar_datos:
+                        print("\t NOMBRES Y ALTURAS DE HEROES\n")
+                        if stark_imprimir_nombres_alturas(lista_heroes) != -1:
+                            pass
+                    else:
+                        print("Se deben normalizar los datos primero antes de mostrar la altura")
                 case 4:
                     if flag_normalizar_datos:
                         print("\t EL HEROE MAS ALTO\n")

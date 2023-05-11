@@ -8,7 +8,6 @@ stark_normalizar_datos(heroes,"altura",float)
 stark_normalizar_datos(heroes,"peso",float)
 stark_normalizar_datos(heroes,"fuerza",float)
 
-
 # 1.1. Crear la función ‘extraer_iniciales’ que recibirá como parámetro:
 # ● nombre_heroe: un string con el nombre del personaje
 # La función deberá devolver a partir del parámetro recibido un nuevo string con
@@ -23,15 +22,7 @@ stark_normalizar_datos(heroes,"fuerza",float)
 # Ejemplo de la salida de la función para Howard the Duck:
 # H.D.
 def extraer_iniciales(nombre_heroe:str)->str:
-    """_summary_
 
-    Args:
-        nombre_heroe (str): _description_
-
-    Returns:
-        str: _description_
-    """
-    
     if type(nombre_heroe) == str and len(nombre_heroe) > 0:
         
         partes_nombre = nombre_heroe.split()
@@ -57,8 +48,6 @@ def extraer_iniciales(nombre_heroe:str)->str:
     else:
         return "N/A"
     
-
-
 # 1.2. Crear la función ‘definir_iniciales_nombre’ la cual recibirá como parámetro:
 # ● heroe: un diccionario con los datos del personaje
 # La función deberá agregar una nueva clave al diccionario recibido como
@@ -107,13 +96,6 @@ def agregar_iniciales_nombre(lista_heroes:list):
             return flag_salio_bien
 
 
-# nombre_heroe = "Howard the Duck"
-# print(definir_iniciales_nombre(heroes[0],"iniciales"))
-# print(heroes[0])
-# if agregar_iniciales_nombre(heroes):
-#     for heroe in heroes:
-#         print(heroe)
-
 # 1.3. Crear la función ‘stark_imprimir_nombres_con_iniciales’ la cual recibirá como parámetro:
 # ● lista_heroes: la lista de personajes
 # La función deberá utilizar la función agregar_iniciales_nombre’ para añadirle las iniciales a los diccionarios contenidos en la lista_heroes Luego deberá imprimir la lista completa de los nombres de los personajes seguido de las iniciales encerradas entre paréntesis ()
@@ -128,5 +110,98 @@ def agregar_iniciales_nombre(lista_heroes:list):
 # …
 # La función no retorna nada
 
-def stark_imprimir_nombres_con_iniciales():
-    pass
+def stark_imprimir_nombres_con_iniciales(lista_heroes:list):
+    if type(lista_heroes) == list and len(lista_heroes) >= 1:
+        agregar_iniciales_nombre(lista_heroes)
+        for heroe in lista_heroes:
+            print(f"* {heroe['nombre']} ({heroe['iniciales']})")
+        
+        
+#2.1. Crear la función ‘generar_codigo_heroe’ la cual recibirá como parámetros:
+# ● id_heroe: un entero que representa el identificador del héroe.
+# ○ NOTA: el valor de id_heroe lo vamos a generar recién el punto
+# 2.3. Para probar la función podes pasarle cualquier entero
+# ● genero_heroe: un string que representa el género del héroe ( puede
+# tomar los valores ‘M’, ‘F’ o ‘NB’)
+# La función deberá generar un string con el siguiente formato:
+# GENERO-000…000ID
+# Es decir, el género recibido por parámetro seguido de un ‘-’ (guión) y por
+# último el identificador recibido. Todos los códigos generados deben tener
+# como máximo 10 caracteres (contando todos los caracteres, inclusive el
+# guión). Se deberá completar con ceros para que todos queden del mismo
+# largo
+# Algunos ejemplos:
+# F-00000001
+# M-00000002
+# NB-0000010
+# La función deberá validar:
+# ● El identificador del héroe sea numérico.
+# ● El género no se encuentre vacío y este dentro de los valores esperados
+# (‘M’, ‘F’ o ‘NB’)
+# En caso de no pasar las validaciones retornar ‘N/A’. En caso de verificarse
+# correctamente retornar el código generado
+
+def generar_codigo_heroe(id_heroe:int, genero_heroe:str):
+    
+    if type(id_heroe) == int and (genero_heroe == "M" or genero_heroe == "F" or genero_heroe == "NB") and len(genero_heroe.strip()) > 0:
+        codigo_heroe = f"{genero_heroe}-{id_heroe}"
+        ceros = ""
+        
+        while len(codigo_heroe) < 10:
+            ceros += "0"
+            codigo_heroe = f"{genero_heroe}-{ceros}{id_heroe}"
+            if len(codigo_heroe) == 10:
+                break
+            
+        return codigo_heroe
+    else:
+        return "N/A"
+        
+            
+# 2.2. Crear la función ‘agregar_codigo_heroe’ la cual recibirá como parámetro:
+# ● heroe: un diccionario con los datos del personaje
+# ● id_heroe: un entero que representa el identificador del héroe.
+# ○ NOTA: el valor de id_heroe lo vamos a generar recién el punto
+# 2.3. Para probar la función podes pasarle cualquier entero
+# La función deberá agregar una nueva clave llamada ‘codigo_heroe’ al
+# diccionario ‘heroe’ recibido como parámetro y asignarle como valor un código
+# utilizando la función ‘generar_codigo_heroe’
+# La función deberá validar:
+# ● Que el diccionario recibido como parámetro no se encuentre vacío.
+# ● Que el código recibido mediante generar_codigo_heroe tenga
+# exactamente 10 caracteres
+# En caso de pasar las validaciones correctamente la función deberá retornar
+# True, en caso de encontrarse un error retornar False
+
+def agregar_codigo_heroe(dic_heroe:dict,id_heroe:int,genero_heroe:str):
+    if len(dic_heroe) > 0:
+        codigo_heroe = generar_codigo_heroe(id_heroe,genero_heroe)
+        if len(codigo_heroe) == 10:
+            dic_heroe["codigo_heroe"] = codigo_heroe
+            flag_salio_bien = True
+    else:
+        flag_salio_bien = False
+    
+    return flag_salio_bien 
+
+#2.3. Crear la función ‘stark_generar_codigos_heroes’ la cual recibirá como
+# parámetro:
+# ● lista_heroes: la lista de personajes
+# La función deberá iterar la lista de personajes y agregarle el código a cada
+# uno de los personajes.
+# El código del héroe (id_heore) surge de la posición del mismo dentro de la
+# lista_heroes (comenzando por el 1).
+# Reutilizar la función agregar_codigo_heroe pasándole como argumentos el
+# héroe que se está iterando y el id_heroe
+# Una vez finalizado imprimir por pantalla un mensaje como el siguiente:
+# (## representa la cantidad de códigos generados):
+# Se asignaron ## códigos
+# * El código del primer héroe es: M-00000001
+# * El código del del último héroe es: M-00001224
+# La función deberá validar::
+# ● La lista contenga al menos un elemento
+# ● Todos los elementos de la lista sean del tipo diccionario
+# ● Todos los elementos contengan la clave ‘genero’
+# En caso de encontrar algún error, informar por pantalla: ‘El origen de datos no
+# contiene el formato correcto’
+# La función no retorna ningún valor.
