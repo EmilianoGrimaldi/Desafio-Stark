@@ -4,9 +4,9 @@ from funciones_stark import *
 
 heroes = []
 copiar_datos(lista_personajes,heroes)
-stark_normalizar_datos(heroes,"altura",float)
-stark_normalizar_datos(heroes,"peso",float)
-stark_normalizar_datos(heroes,"fuerza",float)
+# stark_normalizar_datos(heroes,"altura",float)
+# stark_normalizar_datos(heroes,"peso",float)
+# stark_normalizar_datos(heroes,"fuerza",float)
 
 # 1.1. Crear la función ‘extraer_iniciales’ que recibirá como parámetro:
 # ● nombre_heroe: un string con el nombre del personaje
@@ -240,9 +240,8 @@ entero positivo, retornarlo convertido en entero
 """
 
 def sanitizar_entero(numero_str:str):
-    numero = ""
-    for caracter in range(len(numero_str)):
-        pass
-        
+    pass
+
     
-    print(numero)
+
+print(sanitizar_entero("20"))
