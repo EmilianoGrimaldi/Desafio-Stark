@@ -173,16 +173,17 @@ def generar_codigo_heroe(id_heroe:int, genero_heroe:str):
 # En caso de pasar las validaciones correctamente la función deberá retornar
 # True, en caso de encontrarse un error retornar False
 
-def agregar_codigo_heroe(dic_heroe:dict,id_heroe:int,genero_heroe:str):
-    if len(dic_heroe) > 0:
-        codigo_heroe = generar_codigo_heroe(id_heroe,genero_heroe)
-        if len(codigo_heroe) == 10:
-            dic_heroe["codigo_heroe"] = codigo_heroe
+def agregar_codigo_heroe(un_heroe:dict,id_heroe:int):
+    if len(un_heroe) > 0:
+        codigo = generar_codigo_heroe(id_heroe,un_heroe["genero"])
+        if len(codigo) == 10:
+            un_heroe["codigo_heroe"] = codigo
             flag_salio_bien = True
     else:
         flag_salio_bien = False
     
     return flag_salio_bien 
+
 
 #2.3. Crear la función ‘stark_generar_codigos_heroes’ la cual recibirá como
 # parámetro:
@@ -205,3 +206,43 @@ def agregar_codigo_heroe(dic_heroe:dict,id_heroe:int,genero_heroe:str):
 # En caso de encontrar algún error, informar por pantalla: ‘El origen de datos no
 # contiene el formato correcto’
 # La función no retorna ningún valor.
+
+def stark_generar_codigos_heroes(lista_heroes:list):
+    flag_todo_ok = False
+    contador_codigos = 0
+    
+    if len(lista_heroes) >= 1:
+        for heroe in range(len(lista_heroes)):
+            if type(lista_heroes[heroe]) == dict and "genero" in lista_heroes[heroe]:
+                if agregar_codigo_heroe(lista_heroes[heroe],heroe+1):
+                    flag_todo_ok = True
+                    contador_codigos += 1
+        
+    if not flag_todo_ok:
+        print("El origen de datos no contiene el formato correcto")
+    else:
+        print(f"Se asignaron {contador_codigos} codigos\nEl codigo del primer heroe es {lista_heroes[0]['codigo_heroe']}\nEl codigo del ultimo heroe es {lista_heroes[-1]['codigo_heroe']}")
+        
+"""
+3.1. Crear la función ‘sanitizar_entero’ la cual recibirá como parámetro:
+● numero_str: un string que representa un posible número entero
+La función deberá analizar el string recibido y determinar si es un número
+entero positivo. La función debe devolver distintos valores según el problema
+encontrado:
+● Si contiene carácteres no numéricos retornar -1
+● Si el número es negativo se deberá retornar un -2
+● Si ocurren otros errores que no permiten convertirlo a entero entonces
+se deberá retornar -3
+También deberá quitar los espacios en blanco de atras y adelante del string
+en caso que los tuviese
+En caso que se verifique que el texto contenido en el string es un número
+entero positivo, retornarlo convertido en entero
+"""
+
+def sanitizar_entero(numero_str:str):
+    numero = ""
+    for caracter in range(len(numero_str)):
+        pass
+        
+    
+    print(numero)
