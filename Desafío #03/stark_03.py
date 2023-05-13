@@ -239,9 +239,122 @@ En caso que se verifique que el texto contenido en el string es un número
 entero positivo, retornarlo convertido en entero
 """
 
-def sanitizar_entero(numero_str:str):
-    pass
+def sanitizar_entero(numero_str:str)->int:
+    numero_str = numero_str.strip()
+    if not numero_str.isdigit() and numero_str[0] != "-":
+        return -1
+    else:
+        try:
+            numero = int(numero_str)
+            if numero < 0:
+                return -2
+            else:
+                return numero
+        except:
+            return -3
 
+# print(sanitizar_entero("0"))
+"""
+3.2. Crear la función ‘sanitizar_flotante’ la cual recibirá como parámetro:
+● numero_str: un string que representa un posible número decimal
+La función deberá analizar el string recibido y determinar si es un número
+flotante positivo. La función debe devolver distintos valores según el
+problema encontrado:
+● Si contiene carácteres no numéricos retornar -1
+● Si el número es negativo se deberá retornar un -2
+● Si ocurren otros errores que no permiten convertirlo a entero entonces
+se deberá retornar -3
+También deberá quitar los espacios en blanco de atras y adelante del string
+en caso que los tuviese
+En caso que se verifique que el texto contenido en el string es un número
+flotante positivo, retornarlo convertido en flotante
+"""
+def sanitizar_flotante(numero_str:str)-> int:
+    numero_str = numero_str.strip()
     
+    tiene_punto = False
+    
+    for caracter in numero_str:
+        if caracter == ".":
+            tiene_punto = True
+    
+    if not numero_str.isdigit() and not tiene_punto:
+        return -1
+    else:   
+        try:
+            flotante = float(numero_str)
+            if flotante < 0:
+                return -2
+            else:
+                return flotante
+        except:
+            return -3
+    
+"""
+3.3. Crear la función ‘sanitizar_string’’ la cual recibirá como parámetro
+● valor_str: un string que representa el texto a validar
+● valor_por_defecto: un string que representa un valor por defecto
+(parámetro opcional, inicializarlo con ‘-’)
+La función deberá analizar el string recibido y determinar si es solo texto (sin
+números). En caso de encontrarse números retornar “N/A”
+En el caso que valor_str contenga una barra ‘/’ deberá ser reemplazada por un
+espacio
+El espacio es un caracter válido
+En caso que se verifique que el parámetro recibido es solo texto, se deberá
+retornar el mismo convertido todo a minúsculas
+En el caso que el texto a validar se encuentre vacío y que nos hayan pasado
+un valor por defecto, entonces retornar el valor por defecto convertido a
+minúsculas
+Quitar los espacios en blanco de atras y adelante de ambos parámetros en
+caso que los tuviese
+"""
 
-print(sanitizar_entero("20"))
+def sanitizar_string(valor_str:str, valor_por_defecto:str = "CADENA VACIA"):
+    
+    if len(valor_str) > 0:
+        valor_str = valor_str.strip()
+        sin_barra = ""
+        str_final = ""
+        for caracter in valor_str:
+            if caracter.isdigit():
+                return "N/A"
+             
+            if caracter == "/":
+                caracter = " "
+                sin_barra += caracter
+            else:
+                sin_barra += caracter
+                
+        for caracter in sin_barra:
+            if (caracter >= "A" and caracter <= "Z") or (caracter >= "a" and caracter <= "z") or (caracter == " "):
+                str_final += caracter.lower()
+        
+        return str_final
+    else:
+        return valor_por_defecto.lower()
+
+""" 
+3.4. Crear la función ‘sanitizar_dato’ la cual recibirá como parámetros:
+● heroe: un diccionario con los datos del personaje
+● clave: un string que representa el dato a sanitizar (la clave del
+diccionario). Por ejemplo altura
+● tipo_dato: un string que representa el tipo de dato a sanitizar. Puede
+tomar los valores: ‘string’, ‘entero’ y ‘flotante’
+La función deberá sanitizar el valor del diccionario correspondiente a la clave
+y al tipo de dato recibido
+Para sanitizar los valores se deberán utilizar las funciones creadas en los
+puntos 3.1, 3.2, 3.3 y 3.4
+Se deberá validar:
+● Que tipo_dato se encuentre entre los valores esperados (‘string, ‘entero,
+‘flotante)’ la validación debe soportar que nos lleguen mayúsculas o
+minúsculas. En caso de encontrarse un valor no válido informar por
+pantalla: ‘Tipo de dato no reconocido’
+● Que clave exista como clave dentro del diccionario heroe. En caso de
+no encontrarse, informar por pantalla: ‘La clave especificada no
+existe en el héroe’. (en este caso la validación es sensible a
+mayúsculas o minúsculas)
+Ejemplo de llamada a la función válida:
+sanitizar_dato(dict_personaje, “altura”, “Flotante”)
+La función deberá devolver True en caso de haber sanitizado algún dato y
+False en caso contrario.
+"""
