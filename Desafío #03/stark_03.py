@@ -277,6 +277,7 @@ def sanitizar_flotante(numero_str:str)-> int:
     for caracter in numero_str:
         if caracter == ".":
             tiene_punto = True
+            break
     
     if not numero_str.isdigit() and not tiene_punto:
         return -1
@@ -309,7 +310,7 @@ Quitar los espacios en blanco de atras y adelante de ambos parámetros en
 caso que los tuviese
 """
 
-def sanitizar_string(valor_str:str, valor_por_defecto:str = "CADENA VACIA"):
+def sanitizar_string(valor_str:str, valor_por_defecto:str = "-"):
     
     if len(valor_str) > 0:
         valor_str = valor_str.strip()
@@ -357,4 +358,194 @@ Ejemplo de llamada a la función válida:
 sanitizar_dato(dict_personaje, “altura”, “Flotante”)
 La función deberá devolver True en caso de haber sanitizado algún dato y
 False en caso contrario.
+"""
+
+def sanitizar_dato(heroe:dict, clave:str, tipo_dato:str)->bool:
+    tipo_dato = tipo_dato.lower()
+    salio_bien = False
+    if tipo_dato == "string" or tipo_dato == "entero" or tipo_dato == "flotante":
+        if clave.lower() in heroe:
+            match tipo_dato:
+                case "entero":
+                    if sanitizar_entero(heroe[clave]) != -1 and sanitizar_entero(heroe[clave]) != -2 and sanitizar_entero(heroe[clave]) != -3:
+                        heroe[clave] = sanitizar_entero(heroe[clave])
+                        salio_bien = True 
+                case "string":
+                    if sanitizar_string(heroe[clave]) != "N/A" and sanitizar_string(heroe[clave]) != "-":
+                        heroe[clave] = sanitizar_string(heroe[clave])
+                        salio_bien = True 
+        
+                case "flotante":
+                    if sanitizar_flotante(heroe[clave]) != -1 and sanitizar_flotante(heroe[clave]) != -2 and sanitizar_flotante(heroe[clave]) != -3:
+                        heroe[clave] = sanitizar_flotante(heroe[clave])
+                        salio_bien = True 
+        else:
+            print("La clave especificada no existe en el héroe")
+    else:
+        print("Tipo de dato no reconocido")
+    
+    return salio_bien
+        
+"""
+3.5. Crear la función 'stark_normalizar_datos’ la cual recibirá como parámetros:
+● lista_heroes: la listas personajes
+La función deberá recorrer la lista de héroes y sanitizar los valores solo de las
+siguientes claves: ‘altura’, ‘peso’, ‘color_ojos’, ‘color_pelo’, ‘fuerza’ e
+‘inteligencia’
+● Un vez finalizado el proceso mostrar el mensaje ‘Datos normalizados’,
+● Validar que la lista de héroes no esté vacía para realizar sus acciones,
+caso contrario imprimirá el mensaje: “Error: Lista de héroes vacía”
+● La función no retorna nada
+● Reutilizar la función sanitizar_dato
+"""
+
+def stark_normalizar_datos(lista_heroes:list):
+    if len(lista_heroes) > 0:
+        altura_normalizada = False
+        peso_normalizado = False
+        color_ojos_normalizado = False
+        color_pelo_normalizado = False
+        inteligencia_normalizado = False
+        fuerza_normalizado = False
+        
+        for heroe in lista_heroes:
+            if sanitizar_dato(heroe,"altura","flotante"):
+                altura_normalizada = True
+                
+            if sanitizar_dato(heroe,"peso","flotante"):
+                peso_normalizado = True
+                
+            if sanitizar_dato(heroe,"color_ojos","string"):
+                color_ojos_normalizado = True
+                
+            if sanitizar_dato(heroe,"color_pelo","string"):
+                color_pelo_normalizado = True
+                
+            if sanitizar_dato(heroe,"inteligencia","string"):
+                inteligencia_normalizado = True
+
+            if sanitizar_dato(heroe,"fuerza","entero"):
+                fuerza_normalizado = True
+        
+        if altura_normalizada and peso_normalizado and color_ojos_normalizado and color_pelo_normalizado and inteligencia_normalizado and fuerza_normalizado:
+            print("Datos normalizados")
+    else:
+        print("Error: Lista de héroes vacía")
+
+""" 
+4.1. Crear la función ‘generar_indice_nombres’ la cual recibirá como parámetro:
+● lista_heroes: la lista de personajes
+La función deberá iterar la lista de personajes y generar una lista donde cada
+elemento es cada palabra que componen el nombre de los personajes.
+Por ejemplo la lista que se deberá retornar tiene la siguiente forma:
+[‘Howard’, ‘the’, ‘Duck’, ‘Rocket’, ‘Raccoon’, ‘Wolverine’, … ]
+La función deberá validar que:
+● La lista contenga al menos un elemento
+● Todos los elementos de lista_heroes sean del tipo diccionario
+● Todos los elementos contengan la clave ‘nombre’
+En caso de encontrar algún error, informar por pantalla: ‘El origen de datos no
+contiene el formato correcto’
+"""
+def generar_indice_nombres(lista_heroes:list)->list:
+    
+    salio_bien = False
+    
+    if len(lista_heroes) > 0:
+        sublista = []
+        nombre_personajes_partes = []
+
+        for heroe in lista_heroes:
+            if type(heroe) == dict and "nombre" in heroe:
+                salio_bien = True
+                
+        if salio_bien:
+            for heroe in lista_heroes:
+                heroe["nombre"] = heroe["nombre"].replace("-", " ")
+                dividir_nombre = heroe["nombre"].split(" ")
+                sublista.append(dividir_nombre)
+            
+            for nombre in sublista:
+                nombre_personajes_partes.extend(nombre)
+                
+            return nombre_personajes_partes
+        else:
+            print("El origen de datos no contiene el formato correcto") 
+    else:
+        print("El origen de datos no contiene el formato correcto")     
+
+""" 
+4.2. Crear la función ‘stark_imprimir_indice_nombre’ la cual recibirá como
+parámetro:
+● lista_heroes: la lista de personajes
+La función deberá mostrar por pantalla el índice generado por la función
+generar_indice_nombres con todos los nombres separados con un guión.
+Por ejemplo:
+Howard-the-duck-Rocket-Raccoon-Wolverine…
+"""
+#CODIGO
+def stark_imprimir_indice_nombre(lista_heroes:list):
+    lista_nombres = generar_indice_nombres(lista_heroes)
+    separador = "-"
+    nombres_con_separador = separador.join(lista_nombres)
+    print(nombres_con_separador)
+        
+stark_imprimir_indice_nombre(heroes)
+
+""" 
+5.1. Crear la función ‘convertir_cm_a_mtrs’ la cual recibirá como parámetro:
+● valor_cm: Un número que representa una medida en centímetros
+La función deberá retornar el número recibido, pero convertido a la unidad
+metros. La función deberá validar que el número recibido sea un número
+flotante positivo, en caso de no serlo retornar -1
+"""
+#CODIGO
+def convertir_cm_a_mtrs(valor_cm:str):
+    try:
+        valor_cm = float(valor_cm)
+        if valor_cm < 0:
+            return -1
+        else:
+            valor_m = valor_cm / 100
+            return valor_m
+    except:
+        return -1
+
+""" 
+5.2. Crear la función ‘generar_separador’ la cual recibirá como parámetro
+● patron: un carácter que se utilizará como patrón para generar el
+separador
+● largo: un número que representa la cantidad de caracteres que va
+ocupar el separador.
+● imprimir: un parámetro opcional del tipo booleano (por default definir
+en True)
+La función deberá generar un string que contenga el patrón especificado
+repitiendo tantas veces como la cantidad recibida como parámetro (uno junto
+al otro, sin salto de línea)
+Si el parámetro booleano recibido se encuentra en False se deberá solo
+retornar el separador generado. Si se encuentra en True antes de retornarlo,
+imprimirlo por pantalla
+La función deberá validar:
+● Que el parámetro patrón tenga al menos un carácter y como máximo
+dos
+● Que el parámetro largo sea un entero entre 1 y 235 inclusive
+En caso de no verificarse las validaciones devolver ‘N/A’
+Ejemplo de llamada:
+generar_separador(‘*’, 10)
+Ejemplo de salida:
+**********
+"""
+
+#CODIGO
+
+
+""" 
+5.3. Crear la función ‘generar_encabezado’ la cual recibirá como parámetro
+● titulo: un string que representa el título de una sección de la ficha
+La función deberá devolver un string que contenga el título envuelto entre dos
+separadores (estimar el largo requerido para tu pantalla).
+Ejemplo de salida:
+********************************************************************************
+PRINCIPAL
+********************************************************************************
+La función deberá convertir el titulo recibido en todas letras mayúsculas
 """
