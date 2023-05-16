@@ -1,6 +1,7 @@
 from data_stark import *
 from funciones_stark import *
 
+import os
 
 heroes = []
 copiar_datos(lista_personajes,heroes)
@@ -489,7 +490,7 @@ def stark_imprimir_indice_nombre(lista_heroes:list):
     nombres_con_separador = separador.join(lista_nombres)
     print(nombres_con_separador)
         
-stark_imprimir_indice_nombre(heroes)
+# stark_imprimir_indice_nombre(heroes)
 
 """ 
 5.1. Crear la función ‘convertir_cm_a_mtrs’ la cual recibirá como parámetro:
@@ -534,8 +535,22 @@ generar_separador(‘*’, 10)
 Ejemplo de salida:
 **********
 """
-
 #CODIGO
+def generar_separador(patron:str, largo:int, imprimir:bool = True)->str:
+    if (len(patron) >= 1 and len(patron) <= 2) and (largo >= 1 and largo <= 235):
+        contador = 0
+        separador = ""
+        while contador < largo:
+            separador += patron
+            contador += 1
+        if imprimir:
+            print(separador)
+        
+        return separador
+    else:
+        return "N/A"
+
+# generar_separador("*",10)
 
 
 """ 
@@ -549,3 +564,99 @@ PRINCIPAL
 ********************************************************************************
 La función deberá convertir el titulo recibido en todas letras mayúsculas
 """
+
+def generar_encabezado(titulo:str):
+    generar_separador("*",160,imprimir=True)
+    print(titulo.upper())
+    generar_separador("*",160,imprimir=True)
+    
+# generar_encabezado("Menu stark")
+
+"""
+5.4. Crear la función ‘imprimir_ficha_heroe’ la cual recibirá como parámetro:
+● heroe: un diccionario con los datos del héroe
+La función deberá a partir los datos del héroe generar un string con el
+siguiente formato e imprimirlo por pantalla::
+***************************************************************************************
+PRINCIPAL
+***************************************************************************************
+NOMBRE DEL HÉROE: Spider-Man (S.M.)
+IDENTIDAD SECRETA: Peter Parker
+CONSULTORA: Marvel Comics
+CÓDIGO DE HÉROE : M-00000001
+***************************************************************************************
+FISICO
+***************************************************************************************
+ALTURA: 1,78 Mtrs.
+PESO: 74,25 Kg.
+FUERZA: 55 N
+***************************************************************************************
+SEÑAS PARTICULARES
+***************************************************************************************
+COLOR DE OJOS: Hazel
+COLOR DE PELO: Brown
+"""
+def imprimir_ficha_heroe(heroe:dict)->None:
+    generar_encabezado("Principal")
+    print(f"NOMBRE DEL HÉROE: {heroe['nombre']} ({heroe['iniciales']})\nIDENTIDAD SECRETA: {heroe['identidad']}\nCONSULTORA: {heroe['empresa']}\nCÓDIGO DE HÉROE: {heroe['codigo_heroe']}")
+    generar_encabezado("Fisico")
+    print(f"ALTURA: {heroe['altura']}\nPESO: {heroe['peso']}\nFUERZA: {heroe['fuerza']}")
+    generar_encabezado("Señas particulares")
+    print(f"COLOR DE OJOS: {heroe['color_ojos']}\nCOLOR DE PELO: {heroe['color_pelo']}")
+    
+# stark_normalizar_datos(heroes)
+# stark_generar_codigos_heroes(heroes)
+# stark_imprimir_nombres_con_iniciales(heroes)
+# imprimir_ficha_heroe(heroes[0])
+
+""" 
+5.5. Crear la función 'stark_navegar_fichas’ la cual recibirá como parámetros:
+● lista_heroes: la listas personajes
+La función deberá comenzar imprimiendo la ficha del primer personaje de la
+lista y luego solicitar al usuario que ingrese alguna de las siguientes opciones:
+[ 1 ] Ir a la izquierda [ 2 ] Ir a la derecha [ S ] Salir
+● Si el usuario ingresa ‘1’: se debe mostrar el héroe que se encuentra en
+la posición anterior en la lista (en caso de estar en el primero, ir al
+último)
+● Si el usuario ingresa ‘2’: se debe mostrar el héroe que se encuentra en
+la posición siguiente en la lista (en caso de estar en el último, ir al
+primero)
+● Si ingresa ‘S’: volver al menú principal
+● Si ingresa cualquier otro valor, volver a mostrar las opciones hasta que
+ingrese un valor válido
+"""
+def stark_navegar_fichas(lista_heroes:list, ):
+
+    indice = 0
+    imprimir_ficha_heroe(lista_heroes[0])
+    while True:
+        
+        while True:
+            opcion = input("\n[ 1 ] Ir a la izquierda [ 2 ] Ir a la derecha [ S ] Salir\n").upper()
+            if opcion == "1" or opcion == "2" or opcion == "S":
+                break
+            else:
+                imprimir_ficha_heroe(lista_heroes[indice])
+        match opcion:
+            case "1":
+                    indice -= 1
+                    if indice < 0:
+                        indice = len(lista_heroes) - 1
+                    imprimir_ficha_heroe(lista_heroes[indice])
+            case "2":
+                indice += 1
+                if indice >= len(lista_heroes):
+                    indice = 0
+                imprimir_ficha_heroe(lista_heroes[indice])
+            case "S":
+                print("Volviendo al menu principal...")
+                break
+    
+        
+            
+        
+    
+stark_normalizar_datos(heroes)
+stark_generar_codigos_heroes(heroes)
+stark_imprimir_nombres_con_iniciales(heroes)
+stark_navegar_fichas(heroes)
