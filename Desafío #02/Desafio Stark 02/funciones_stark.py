@@ -265,7 +265,7 @@ def stark_marvel_app(lista_heroes:list):
                 if opcion >= 1 and opcion <= 11:
                     break
                 else:
-                    print("Opcion opcion incorrecta")
+                    print("Opcion  incorrecta")
                 
             match opcion:
                 case 1:
