@@ -546,7 +546,7 @@ def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str):
             if palabra_cap in dic_clave_valor:
                 dic_clave_valor[palabra_cap] += 1
             else:
-                dic_clave_valor[palabra_cap] = 0
+                dic_clave_valor[palabra_cap] = 1
                 
         dic_formateado_clave_valor = json.dumps(dic_clave_valor, indent = 4)
         return dic_formateado_clave_valor
@@ -555,4 +555,88 @@ def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str):
         diccionario_formateado = json.dumps(diccionario_error,indent = 4)
         print(diccionario_formateado)
     
-# print(calcular_cantidad_tipo(heroes,"color_ojos"))
+
+
+""" 
+5.2. Crear la función 'guardar_cantidad_heroes_tipo' la cual recibirá como
+parámetro un diccionario que representará las distintas variedades del
+tipo de dato (distintos colores de ojos, pelo, etc) como clave con sus
+respectivas cantidades como valor. Como segundo parámetro recibirá
+el dato (color_pelo, color_ojos, etc) el cual tendrás que usarlo
+únicamente en el mensaje final formateado.
+
+Esta función deberá iterar cada key del diccionario y variabilizar dicha key con su valor para
+luego formatearlos en un mensaje el cual deberá guardar en archivo.
+
+Por ejemplo:
+"Caracteristica: color_ojos Blue - Cantidad de heroes: 9"
+Reutilizar la función 'guardar_archivo'. El nombre del archivo final
+deberá respetar el formato:
+heroes_cantidad_tipoDato.csv
+Donde:
+● tipoDato: representará el nombre de la key la cual se está
+evaluando la cantidad de héroes.
+Ejemplo:
+heroes_cantidad_color_pelo.csv
+heroes_cantidad_color_ojos.csv
+La función retornará True si salió todo bien, False caso contrario.
+"""
+
+def guardar_cantidad_heroes_tipo(tipoDato:dict, dato:str):
+    
+    lista_formateada = []
+    separador = "\n"
+    nombre_archivo = f"heroes_cantidad_{dato}.csv"
+    
+    for key, value in tipoDato.items():
+        texto_formateado = f"Caracteristica: {dato} {key} - Cantidad de heroes: {value}"
+        lista_formateada.append(texto_formateado)
+    
+    if guardar_archivo(nombre_archivo,separador.join(lista_formateada)):
+        return True
+    else:
+        return False
+
+# dato = "inteligencia"
+# heroe = json.loads(calcular_cantidad_tipo(heroes,dato))
+# print(guardar_cantidad_heroes_tipo(heroe,dato))
+
+""" 
+5.3. Crear la función 'stark_calcular_cantidad_por_tipo' la cual recibirá por
+parámetro la lista de héroes y un string que representará el tipo de
+dato/key a buscar (color_ojos, color_pelo, etc). Dentro deberás
+reutilizar 'calcular_cantidad_tipo' y 'guardar_cantidad_heroes_tipo' con
+la lógica que cada una de esas funciones manejan.
+Esta función retornará True si pudo guardar el archivo, False caso
+contrario.
+"""
+
+def stark_calcular_cantidad_por_tipo(lista_heroes:list, key:str):
+    
+    cantidad_tipo = calcular_cantidad_tipo(lista_heroes,key)
+    convertir_json_dic = json.loads(cantidad_tipo)
+    
+    if guardar_cantidad_heroes_tipo(convertir_json_dic,key):
+        return True
+    else:
+        return False
+    
+# print(stark_calcular_cantidad_por_tipo(heroes, "color_ojos"))
+# print(stark_calcular_cantidad_por_tipo(heroes, "color_pelo"))
+# print(stark_calcular_cantidad_por_tipo(heroes, "inteligencia"))
+
+"""
+6.1. Crear la función 'obtener_lista_de_tipos' la cual recibirá por parámetro
+la lista de héroes y un string que representará el tipo de dato/key a
+buscar (color_ojos, color_pelo, etc).
+Esta función deberá iterar la lista de héroes guardando en una lista las
+variedades del tipo de dato pasado por parámetro (sus valores).
+En caso de encontrar una key sin valor (o string vacío), deberás
+hardcodear con el valor 'N/A' y luego agregarlo a la lista donde irás
+guardando todos los valores encontrados, si el valor del héroe no tiene
+errores, guardarlo tal cual viene.
+Finalmente deberás eliminar los duplicados de esa lista y retornarla
+como un set.
+Reutilizar 'capitalizar_palabras' para guardar cada uno de los datos
+con la primera letra mayúscula.
+"""
