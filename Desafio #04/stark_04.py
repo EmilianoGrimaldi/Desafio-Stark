@@ -1,7 +1,11 @@
 #FUNCIONES
 from funciones_stark import *
+from funciones_calculos_stark import *
 import re
 import json
+
+
+
 
 
 """
@@ -93,6 +97,10 @@ def leer_archivo(nombre_archivo:str):
 
 heroes = leer_archivo("Desafio #04\data_stark.json")
 
+stark_normalizar_datos(heroes,"altura",float)
+stark_normalizar_datos(heroes,"peso",float)
+stark_normalizar_datos(heroes,"fuerza",int)
+
 """ 
 1.5. Crear la función 'guardar_archivo' la cual recibirá por parámetro un
 string que indicará el nombre con el cual se guardará el archivo junto
@@ -110,7 +118,7 @@ creado, conjuntamente con su extensión.
 """
 def guardar_archivo(nombre_archivo:str, contenido:str):
     try:
-        with open(nombre_archivo, "w") as archivo:
+        with open(f"Desafio #04\{nombre_archivo}", "w") as archivo:
             archivo.writelines(contenido)
 
         print(f"Se creó el archivo: {nombre_archivo}")
@@ -163,7 +171,7 @@ Reutilizar 'obtener_nombre_capitalizado'
 """
 def obtener_nombre_y_dato(heroe:dict, key:str):
     nombre = obtener_nombre_capitalizado(heroe)
-    nombre_dato = f"Nombre: {nombre:20s} | key: {heroe[key]}"
+    nombre_dato = f"Nombre: {nombre:20s} | {key}: {heroe[key]}"
     return nombre_dato
 
 
@@ -223,4 +231,328 @@ def stark_guardar_heroe_genero(lista_heroes:list, genero_evaluar:str):
         return True
     else:
         return False
-print(stark_guardar_heroe_genero(heroes,"F"))
+    
+# print(stark_guardar_heroe_genero(heroes,"F"))
+
+""" 
+3.1. Basandote en la función 'calcular_min', crear la función
+'calcular_min_genero' la cual recibirá como parámetro extra un string
+que representa el género de la heroína/héroe a buscar. modificar un
+poco la lógica para que dentro no se traiga por defecto al primer héroe
+de la lista sino que mediante un flag, se traiga el primer héroe que
+COINCIDA con el género pasado por parámetro. A partir de allí, podrá
+empezar a comparar entre héroes o heroínas que coincidan con el
+género pasado por parámetro. La función retornará el héroe o heroína
+que cumpla la condición de tener el mínimo (peso, altura u otro dato)
+"""
+def calcular_min_genero(lista_heroes:list,key_heroe:str, genero:str)->dict:
+    
+    flag_primer_heroe_gen = False
+    
+    if len(lista_heroes) > 0 and type(key_heroe) == str and type(genero) == str:
+        try:
+            for heroe in lista_heroes:
+                if heroe["genero"] == genero and not flag_primer_heroe_gen:
+                    heroe_completo = heroe
+                    flag_primer_heroe_gen = True
+                    break
+                
+            for heroe in lista_heroes:
+                if heroe["genero"] == genero:  
+                    if heroe[key_heroe] <= heroe_completo[key_heroe]:
+                        heroe_completo = heroe
+    
+            return heroe_completo
+        except KeyError:
+            print("Error! Esa clave no existe en el diccionario")
+    else:
+        print("Error! Los parametros son invalidos")
+        
+
+# print(calcular_min_genero(heroes, "altura", "F"))
+
+""" 
+3.2. Basandote en la función 'calcular_max', crear la función
+'calcular_max_genero' la cual recibirá como parámetro extra un string
+que representará el género de la heroína/héroe a buscar. modificar un
+poco la lógica para que dentro no se traiga por defecto al primer héroe
+de la lista sino que mediante un flag, se traiga el primer héroe que
+COINCIDA con el género pasado por parámetro. A partir de allí, podrá
+empezar a comparar entre héroes o heroínas que coincidan con el
+género pasado por parámetro. La función retornará el héroe o heroína
+que cumpla la condición de tener el máximo (peso, altura u otro dato)
+"""
+
+def calcular_max_genero(lista_heroes:list,key_heroe:str, genero:str)->dict:
+    flag_primer_heroe_gen = False
+    
+    if len(lista_heroes) > 0 and type(key_heroe) == str and type(genero) == str:
+        try:
+            for heroe in lista_heroes:
+                if heroe["genero"] == genero and not flag_primer_heroe_gen:
+                    heroe_completo = heroe
+                    flag_primer_heroe_gen = True
+                    break
+                
+            for heroe in lista_heroes:
+                if heroe["genero"] == genero:  
+                    if heroe[key_heroe] >= heroe_completo[key_heroe]:
+                        heroe_completo = heroe
+                    
+            return heroe_completo
+        except KeyError:
+            print("Error! Esa clave no existe en el diccionario")
+    else:
+        print("Error! Los parametros son invalidos")
+
+# print(calcular_max_genero(heroes, "altura", "F"))
+
+""" 
+3.3. Basandote en la funcion 'calcular_max_min_dato', crear una funcion
+con la misma lógica la cual reciba un parámetro string que
+representará el género del héroe/heroína a buscar y renombrarla a
+'calcular_max_min_dato_genero'. La estructura será similar a la ya
+antes creada, salvo que dentro de ella deberá llamar a
+'calcular_max_genero' y 'calcular_min_genero', pasandoles el nuevo
+parámetro. Esta función retornará el héroe o heroína que cumpla con
+las condiciones pasados por parámetro. Por ejemplo, si se le pasa 'F' y
+'minimo', retornará la heroína que tenga el mínimo (altura, peso u otro
+dato)
+"""
+
+def calcular_max_min_dato_genero(lista_heroes:list,calculo_realizar:str,key_heroe:str, genero:str)->dict:
+    
+    if len(lista_heroes) > 0 and type(key_heroe) == str and type(calculo_realizar) == str and type(genero) == str:
+       if calculo_realizar == "minimo" or calculo_realizar == "maximo":
+            match calculo_realizar:
+                case "minimo":
+                    heroe = calcular_min_genero(lista_heroes,key_heroe,genero)
+                    return heroe
+                case "maximo":
+                    heroe = calcular_max_genero(lista_heroes,key_heroe,genero)
+                    return heroe
+       else:
+           print("Error! No se indico correctamente el calculo a realizar")
+    else:
+        print("Error! Los parametros son invalidos")
+
+# print(calcular_max_min_dato_genero(heroes,"minimo","altura","F"))
+
+""" 
+3.4. Basandote en la función 'stark_calcular_imprimir_heroe' crear la
+función ‘stark_calcular_imprimir_guardar_heroe_genero’ que además
+reciba un string el cual representará el género a evaluar. El formato de
+mensaje a imprimir deberá ser estilo:
+Mayor Altura: Nombre: Gamora | Altura: 183.65
+Además la función deberá guardar en un archivo csv el resultado
+obtenido.
+
+Reutilizar: 'calcular_max_min_dato_genero', 'obtener_nombre_y_dato',
+'imprimir_dato' y 'guardar_archivo'.
+
+En el caso de 'guardar_archivo' el nombre del archivo debe respetar el
+formato:
+heroes_calculo_key_genero.csv
+Donde:
+● cálculo: representará el string máximo o mínimo
+● key: representará cual es la key la cual se tiene que hacer el
+cálculo
+● genero: representará el género a calcular.
+Ejemplo: para calcular el héroe más alto femenino, el archivo se
+deberá llamar:
+heroes_maximo_altura_F.csv
+Esta función retornará True si pudo guardar el archivo, False caso
+contrario
+"""
+
+def stark_calcular_imprimir_guardar_heroe_genero(lista_heroes:list,calculo_realizar:str,key_heroe:str,genero:str)->int:
+           
+    match calculo_realizar:
+        case "maximo":
+            mensaje = f"Mayor {key_heroe}"
+        case "minimo":
+            mensaje = f"Menor {key_heroe}"
+
+    heroe_max_o_min = calcular_max_min_dato_genero(lista_heroes,calculo_realizar,key_heroe,genero)
+    heroe_imprimir = obtener_nombre_y_dato(heroe_max_o_min,key_heroe)
+    imprimir_dato(f"{mensaje}: {heroe_imprimir}")
+    
+    
+    if guardar_archivo(f"heroes_{calculo_realizar}_{key_heroe}_{genero}.csv",heroe_imprimir):
+        return True
+    else:
+        return False
+    
+
+# stark_calcular_imprimir_guardar_heroe_genero(heroes,"minimo", "peso", "M")
+
+""" 
+4.1. Basandote en la función 'sumar_dato_heroe', crear la función llamada
+'sumar_dato_heroe_genero' la cual deberá tener un parámetro extra
+del tipo string que representará el género con el que se va a trabajar.
+Esta función antes de realizar la suma en su variable sumadora,
+deberá validar lo siguiente:
+A. El tipo de dato del héroe debe ser diccionario.
+B. El héroe actual de la iteración no debe estar vacío (ser
+diccionario vacío)
+C. El género del héroe debe coincidir con el pasado por
+parámetro.
+Una vez que cumpla con las condiciones, podrá realizar la suma. La
+función deberá retornar la suma del valor de la key de los héroes o
+heroínas que cumplan las condiciones o -1 en caso de que no se
+cumplan las validaciones
+"""
+def sumar_dato_heroe_genero(lista_heroes:list,key_heroe:str, genero:str)->int:
+    sumador = 0
+    
+    if len(lista_heroes) > 0 and type(key_heroe) == str and type(genero) == str:
+        for heroe in lista_heroes:
+            if type(heroe) == dict and heroe != {}:
+                if heroe['genero'] == genero:
+                    sumador += heroe[key_heroe]
+            else:
+                return -1
+        
+        return sumador 
+    else:
+        print("Error! Los parametros son invalidos")
+        
+
+# print(sumar_dato_heroe_genero(heroes,"fuerza","F"))
+
+""" 
+4.2. Crear la función 'cantidad_heroes_genero' la cual recibirá por
+parámetro la lista de héroes y un string que representará el género a
+buscar. La función deberá iterar y sumar la cantidad de héroes o
+heroínas que cumplan con la condición de género pasada por
+parámetro, retornará dicha suma.
+"""
+
+def cantidad_heroes_genero(lista_heroes:list, genero:str):
+    contador_genero = 0
+    
+    for heroe in lista_heroes:
+        if genero in heroe["genero"]:
+            contador_genero += 1
+    
+    return contador_genero
+
+# print(cantidad_heroes_genero(heroes,"F"))
+
+""" 
+4.3. Basandote en la función 'calcular_promedio', crear la función
+'calcular_promedio_genero' la cual tendrá como parámetro extra un
+string que representará el género a buscar. la lógica es similar a la
+función anteriormente mencionada en el enunciado. Reutilizar las
+funciones: 'sumar_dato_heroe_genero', 'cantidad_heroes_genero' y
+'dividir'.
+retornará el promedio obtenido, según la key y género pasado por
+parámetro.
+"""
+
+def calcular_promedio_genero(lista_heroes:list,key_heroe_calcular:str,genero:str)->float:
+    
+    if len(lista_heroes) > 0 and type(key_heroe_calcular) == str and type(genero) == str:
+        total = sumar_dato_heroe_genero(lista_heroes,key_heroe_calcular,genero)
+        divisor = cantidad_heroes_genero(heroes,genero)
+        resultado = dividir(total,divisor)
+        return f"{resultado:.2f}"      
+    else:
+        print("Error! Los parametros son invalidos")
+
+# print(calcular_promedio_genero(heroes, "fuerza", "F"))
+
+""" 
+4.4. Basandote en la función ‘stark_calcular_imprimir_promedio_altura',
+desarrollar la función 'stark_calcular_imprimir_guardar_
+promedio_altura_genero' la cual tendrá como parámetro extra un string
+que representará el género de los héroes a buscar.
+
+La función antes de hacer nada, deberá validar que la lista no esté
+vacía. En caso de no estar vacía: calculará el promedio y lo imprimirá
+formateado al estilo:
+Altura promedio género F: 178.45
+
+En caso de estar vacía, imprimirá como mensaje:
+Error: Lista de héroes vacía.
+
+Luego de imprimir la función deberá guardar en un archivo los mismos
+datos. El nombre del archivo debe tener el siguiente formato:
+heroes_promedio_altura_genero.csv
+Donde:
+A. genero: será el género de los héroes a calcular, siendo M y F
+únicas opciones posibles.
+Ejemplos:
+heroes_promedio_altura_F.csv
+heroes_promedio_altura_M.csv
+Reutilizar las funciones: 'calcular_promedio_genero', 'imprimir_dato' y
+'guardar_archivo'.
+Esta función retornará True si pudo la lista tiene algún elemento y pudo
+guardar el archivo, False en caso de que esté vacía o no haya podido
+guardar el archivo.
+"""
+def stark_calcular_imprimir_guardar_promedio_altura_genero(lista_heroes:list, genero:str)->int:
+    tiene_elementos = False
+    if len(lista_heroes) > 0:
+        altura_promedio = calcular_promedio_genero(lista_heroes,"altura", genero)
+        imprimir_dato(f"Altura promedio género {genero}: {altura_promedio}")
+        tiene_elementos = True
+    else:
+        print("Error: Lista de héroes vacía")
+
+    if genero == "M" or genero == "F":
+        if guardar_archivo(f"heroes_promedio_altura_{genero}.csv", altura_promedio) and tiene_elementos:
+            return True
+        else:
+            return False
+        
+
+# print(stark_calcular_imprimir_guardar_promedio_altura_genero(heroes, "F"))
+
+""" 
+5.1. Crear la función 'calcular_cantidad_tipo' la cual recibirá por parámetro
+la lista de héroes y un string que representará el tipo de dato/key a
+buscar (color_ojos, color_pelo, etc)
+
+Antes de hacer nada, deberá validar que la lista no esté vacía. En caso
+de estarlo devolver un diccionario con la siguiente estructura:
+{
+    "Error": “La lista se encuentra vacía”
+}
+
+La función deberá retornar un diccionario con los distintos valores del
+tipo de dato pasada por parámetro y la cantidad de cada uno (crear un
+diccionario clave valor).
+Por ejemplo, si el tipo de dato fuese color_ojos, devolverá un
+diccionario de la siguiente manera:
+{
+    "Celeste": 4,
+    "Verde": 8,
+    "Marron": 6
+}
+Reutilizar la función 'capitalizar_palabras' para capitalizar los valores
+de las keys.
+"""
+
+def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str):
+    
+    
+    if len(lista_heroes) > 0:
+        dic_clave_valor = {}
+        for heroe in lista_heroes:
+            
+            palabra_cap = capitalizar_palabras(heroe[tipo_key])
+            
+            if palabra_cap in dic_clave_valor:
+                dic_clave_valor[palabra_cap] += 1
+            else:
+                dic_clave_valor[palabra_cap] = 0
+                
+        dic_formateado_clave_valor = json.dumps(dic_clave_valor, indent = 4)
+        return dic_formateado_clave_valor
+    else:
+        diccionario_error = {"Error":"La lista se encuentra vacia"}
+        diccionario_formateado = json.dumps(diccionario_error,indent = 4)
+        print(diccionario_formateado)
+    
+# print(calcular_cantidad_tipo(heroes,"color_ojos"))

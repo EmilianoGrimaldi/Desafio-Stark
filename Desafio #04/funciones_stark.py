@@ -23,30 +23,30 @@
 # # ● Validar primero que el tipo de dato no sea del tipo al cual será casteado. Por ejemplo si una key debería ser entero (ejemplo edad) verificar antes que no se encuentre ya en ese tipo de dato.
 # # ● Si al menos un dato fue modificado, la función deberá imprimir como mensaje ‘Datos normalizados’, caso contrario no imprimirá nada.
 # # ● Validar que la lista de héroes no esté vacía para realizar sus acciones, caso contrario imprimirá el mensaje: “Error: Lista de héroes vacía”
-# def stark_normalizar_datos(lista_heroes:list,campo:str,tipo_nuevo:str)->None:
-#     """Recorre la lista y convierte a otro tipo de dato las claves o keys 
+def stark_normalizar_datos(lista_heroes:list,campo:str,tipo_nuevo:str)->None:
+    """Recorre la lista y convierte a otro tipo de dato las claves o keys 
 
-#     Args:
-#         lista_heroes (list): Lista de diccionario de los heroes\n
-#         campo (str): Campo o key del diccionario\n
-#         tipo_nuevo (str): Tipo a convertir el dato
-#     """
+    Args:
+        lista_heroes (list): Lista de diccionario de los heroes\n
+        campo (str): Campo o key del diccionario\n
+        tipo_nuevo (str): Tipo a convertir el dato
+    """
     
-#     datos_normalizados = False
+    datos_normalizados = False
     
-#     if len(lista_heroes) > 0:
-#         try:
-#             for heroe in lista_heroes:
-#                 if type(heroe[campo]) != tipo_nuevo:
-#                     heroe[campo] = tipo_nuevo(heroe[campo])
-#                     datos_normalizados = True
-#         except ValueError:
-#             print("Error! Intentaste convertir a un tipo de dato que no se puede")
-#     else:
-#         print("Error! Lista de heroes vacia")
+    if len(lista_heroes) > 0:
+        try:
+            for heroe in lista_heroes:
+                if type(heroe[campo]) != tipo_nuevo:
+                    heroe[campo] = tipo_nuevo(heroe[campo])
+                    datos_normalizados = True
+        except ValueError:
+            print("Error! Intentaste convertir a un tipo de dato que no se puede")
+    else:
+        print("Error! Lista de heroes vacia")
     
-#     if datos_normalizados:
-#         print("Datos normalizados")
+    if datos_normalizados:
+        print("Datos normalizados")
 
 # # 1.1. Crear la función 'obtener_nombre' la cual recibirá por parámetro un
 # # diccionario el cual representara a un héroe y devolverá un string el cual
@@ -271,7 +271,7 @@ def imprimir_dato(dato:str)->None:
 #                     if not flag_normalizar_datos:
 #                         stark_normalizar_datos(lista_heroes,"altura",float)
 #                         stark_normalizar_datos(lista_heroes,"peso",float)
-#                         stark_normalizar_datos(lista_heroes,"fuerza",float)
+#                         stark_normalizar_datos(lista_heroes,"fuerza",int)
 #                         flag_normalizar_datos = True
 #                 case 2:
 #                     print("\t LISTA DE NOMBRES DE SUPERHEROES\n")
