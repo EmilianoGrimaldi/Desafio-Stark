@@ -89,7 +89,7 @@ que indicará el nombre y extensión del archivo a leer (Ejemplo:
 archivo.json). Dicho archivo se abrirá en modo lectura únicamente y
 retornará la lista de héroes como una lista de diccionarios.
 """
-def leer_archivo(nombre_archivo:str):
+def leer_archivo(nombre_archivo:str)->list:
     with open(nombre_archivo, "r") as archivo:
         contenido = json.load(archivo)
         
@@ -116,7 +116,7 @@ archivo: nombre_archivo’
 Donde nombre_archivo será el nombre que recibirá el archivo a ser
 creado, conjuntamente con su extensión.
 """
-def guardar_archivo(nombre_archivo:str, contenido:str):
+def guardar_archivo(nombre_archivo:str, contenido:str)->bool:
     try:
         with open(f"Desafio #04\{nombre_archivo}", "w") as archivo:
             archivo.writelines(contenido)
@@ -134,7 +134,7 @@ retornar dicho string en el cual todas y cada una de las palabras que
 contenga, deberán estar capitalizadas (Primera letra en mayúscula).
 """
 
-def capitalizar_palabras(string:str):
+def capitalizar_palabras(string:str)->str:
     palabras = string.split()
     palabras_capitalizadas = []
     for palabra in palabras:
@@ -169,7 +169,7 @@ key es fuerza)
 Nombre: Venom | Fuerza: 500
 Reutilizar 'obtener_nombre_capitalizado'
 """
-def obtener_nombre_y_dato(heroe:dict, key:str):
+def obtener_nombre_y_dato(heroe:dict, key:str)->str:
     nombre = obtener_nombre_capitalizado(heroe)
     nombre_dato = f"Nombre: {nombre:20s} | {key}: {heroe[key]}"
     return nombre_dato
@@ -186,7 +186,7 @@ puede ser M, F o NB). retornará True en caso de que cumpla, False
 caso contrario.
 """
 
-def es_genero(heroe:dict, genero_buscado:str):
+def es_genero(heroe:dict, genero_buscado:str) -> bool:
     genero_buscado = genero_buscado.upper()
     if genero_buscado == "M" or genero_buscado == "F" or genero_buscado == "NB":
         if genero_buscado == heroe["genero"]:
@@ -210,7 +210,7 @@ heroes_M.csv, heroes_F.csv o heroes_NB según corresponda.
 La función retornará True si pudo guardar el archivo, False caso
 contrario.
 """
-def stark_guardar_heroe_genero(lista_heroes:list, genero_evaluar:str):
+def stark_guardar_heroe_genero(lista_heroes:list, genero_evaluar:str) -> bool:
     nombres_filtrados = []
     
     for heroe in lista_heroes:
@@ -365,7 +365,7 @@ Esta función retornará True si pudo guardar el archivo, False caso
 contrario
 """
 
-def stark_calcular_imprimir_guardar_heroe_genero(lista_heroes:list,calculo_realizar:str,key_heroe:str,genero:str)->int:
+def stark_calcular_imprimir_guardar_heroe_genero(lista_heroes:list,calculo_realizar:str,key_heroe:str,genero:str)->bool:
            
     match calculo_realizar:
         case "maximo":
@@ -428,7 +428,7 @@ heroínas que cumplan con la condición de género pasada por
 parámetro, retornará dicha suma.
 """
 
-def cantidad_heroes_genero(lista_heroes:list, genero:str):
+def cantidad_heroes_genero(lista_heroes:list, genero:str) -> int:
     contador_genero = 0
     
     for heroe in lista_heroes:
@@ -491,7 +491,7 @@ Esta función retornará True si pudo la lista tiene algún elemento y pudo
 guardar el archivo, False en caso de que esté vacía o no haya podido
 guardar el archivo.
 """
-def stark_calcular_imprimir_guardar_promedio_altura_genero(lista_heroes:list, genero:str)->int:
+def stark_calcular_imprimir_guardar_promedio_altura_genero(lista_heroes:list, genero:str)->bool:
     tiene_elementos = False
     if len(lista_heroes) > 0:
         altura_promedio = calcular_promedio_genero(lista_heroes,"altura", genero)
@@ -534,7 +534,7 @@ Reutilizar la función 'capitalizar_palabras' para capitalizar los valores
 de las keys.
 """
 
-def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str):
+def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str)-> str:
     
     
     if len(lista_heroes) > 0:
@@ -548,14 +548,13 @@ def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str):
             else:
                 dic_clave_valor[palabra_cap] = 1
                 
-        dic_formateado_clave_valor = json.dumps(dic_clave_valor, indent = 4)
-        return dic_formateado_clave_valor
+        return dic_clave_valor
     else:
         diccionario_error = {"Error":"La lista se encuentra vacia"}
         diccionario_formateado = json.dumps(diccionario_error,indent = 4)
         print(diccionario_formateado)
     
-
+# print(calcular_cantidad_tipo(heroes,"color_ojos"))
 
 """ 
 5.2. Crear la función 'guardar_cantidad_heroes_tipo' la cual recibirá como
@@ -582,7 +581,7 @@ heroes_cantidad_color_ojos.csv
 La función retornará True si salió todo bien, False caso contrario.
 """
 
-def guardar_cantidad_heroes_tipo(tipoDato:dict, dato:str):
+def guardar_cantidad_heroes_tipo(tipoDato:dict, dato:str)->bool:
     
     lista_formateada = []
     separador = "\n"
@@ -611,7 +610,7 @@ Esta función retornará True si pudo guardar el archivo, False caso
 contrario.
 """
 
-def stark_calcular_cantidad_por_tipo(lista_heroes:list, key:str):
+def stark_calcular_cantidad_por_tipo(lista_heroes:list, key:str)->bool:
     
     cantidad_tipo = calcular_cantidad_tipo(lista_heroes,key)
     convertir_json_dic = json.loads(cantidad_tipo)
@@ -629,14 +628,207 @@ def stark_calcular_cantidad_por_tipo(lista_heroes:list, key:str):
 6.1. Crear la función 'obtener_lista_de_tipos' la cual recibirá por parámetro
 la lista de héroes y un string que representará el tipo de dato/key a
 buscar (color_ojos, color_pelo, etc).
+
 Esta función deberá iterar la lista de héroes guardando en una lista las
 variedades del tipo de dato pasado por parámetro (sus valores).
+
 En caso de encontrar una key sin valor (o string vacío), deberás
 hardcodear con el valor 'N/A' y luego agregarlo a la lista donde irás
 guardando todos los valores encontrados, si el valor del héroe no tiene
 errores, guardarlo tal cual viene.
+
 Finalmente deberás eliminar los duplicados de esa lista y retornarla
 como un set.
+
 Reutilizar 'capitalizar_palabras' para guardar cada uno de los datos
 con la primera letra mayúscula.
 """
+
+def obtener_lista_de_tipos(lista_heroes:list, key:str)-> set:
+    
+    lista_filtrada = []
+    lista_filtrada_sin_repetidos = []
+    for heroe in lista_heroes:
+        tipo_dato = heroe[key]
+        
+        if tipo_dato == "":
+            tipo_dato = "N/A"
+
+        dato_capitalizado = capitalizar_palabras(tipo_dato)
+        
+        lista_filtrada.append(dato_capitalizado)
+    
+    for dato in lista_filtrada:
+        if dato not in lista_filtrada_sin_repetidos:
+            lista_filtrada_sin_repetidos.append(dato)
+    
+    return set(lista_filtrada_sin_repetidos)
+    
+""" 
+6.2. Crear la función 'normalizar_dato' la cual recibirá por parámetro un
+dato de héroe (el valor de una de sus keys, por ejemplo si la key fuese
+color_ojos y su valor fuese Verde, recibira este ultimo) y tambien una
+variable como string la cual representará el valor por defecto a colocar
+en caso de que el valor está vacío. Deberá validar que el dato no esté
+vacío, en caso de estarlo lo reemplazará con el valor default pasado
+por parámetro y lo retornará, caso contrario lo retornará sin
+modificaciones.
+"""
+
+def normalizar_dato(valor_key:str, valor_defecto:str = "N/A"):
+    
+    if valor_key == "":
+        valor_key = valor_defecto
+    
+    return valor_key
+
+""" 
+6.3. Crear la función 'normalizar_heroe' la cual recibirá dos parámetros. el
+primero será un diccionario que representará un solo héroe, el
+segundo parámetro será el nombre de la key de dicho diccionario la
+cual debe ser normalizada.
+
+La función deberá capitalizar las palabras que tenga dicha key como
+valor, 
+luego deberá normalizar el dato (ya que si viene vacío, habrá que setearlo con N/A).
+
+Finalmente deberá capitalizar todas las palabras del nombre del héroe
+y deberá retornar al Hero con cada palabra de su nombre
+capitalizados, cada palabra del valor de la key capitalizadas y
+normalizadas (con N/A en caso de que estuviesen vacías por defecto).
+Reutilizar: 'capitalizar_palabras' y 'normalizar_dato'
+"""
+
+def normalizar_heroe(un_heroe:dict, nombre_key:str)-> dict:
+    
+    un_heroe[nombre_key] = normalizar_dato(capitalizar_palabras(un_heroe[nombre_key]))
+    un_heroe["nombre"] = capitalizar_palabras(un_heroe["nombre"])
+    
+    return un_heroe
+
+""" 
+6.4. Crear la funcion 'obtener_heroes_por_tipo' el cual recibira por
+parámetro:
+A. La lista de héroes
+B. Un set de tipos/variedades (colores de ojos, de pelo, etc)
+C. El tipo de dato a evaluar (la key en cuestion, color_ojos,
+color_pelo, etc)
+
+PRESTAR ATENCIÓN:
+A. Deberá iterar el set de tipos/variedades y por cada tipo tendrá evaluar
+si ese tipo existe como key en un diccionario el cual deberás armar.
+(contendrá cada variedad como key y una lista de nombres de héroes
+como valor de cada una de ellas).
+
+B. En caso de no existir dicha key en el diccionario, agregarla con una
+lista vacía como valor.
+
+C. Dentro de la iteración de variedades, iterar la lista de héroes (for
+anidado) 'normalizando' el posible valor que tenga la key evaluada, ya
+que podría venir vacía (qué función usarias aca? guiño guiño)
+
+D. Una vez normalizado el dato, evaluar si dicho dato coincide con el tipo
+pasado por parámetro.
+
+E. En caso de que coincida, agregarlo a la lista (inicialmente vacía) de la
+variedad iterada en el primer bucle.
+Esta función retornará un diccionario con cada variedad como key y
+una lista de nombres como valor.
+Por ejemplo:
+{
+    "Celestes": ["Capitan America", "Tony Stark"],
+    "Verdes": ["Hulk", "Viuda Negra"]
+    ....
+}
+"""
+
+def obtener_heroes_por_tipo(lista_heroes:list, set_tipos:set, key_evaluar:str)-> dict:
+    
+    dic_tipos_nombres = {}
+    
+    for tipo in set_tipos:  
+        for heroe in lista_heroes:
+            
+            heroe_normalizado = normalizar_heroe(heroe,key_evaluar)
+            
+            if heroe_normalizado[key_evaluar] == tipo:
+                if tipo not in dic_tipos_nombres:
+                    dic_tipos_nombres[tipo] = []
+                     
+                dic_tipos_nombres[tipo].append(heroe_normalizado["nombre"])
+                
+    return dic_tipos_nombres
+
+# set_tipos = obtener_lista_de_tipos(heroes,"inteligencia")
+# print(obtener_heroes_por_tipo(heroes, set_tipos, "inteligencia"))
+
+""" 
+6.5. Crear la funcion 'guardar_heroes_por_tipo' la cual recibira por
+parámetro un diccionario que representará los distintos tipos como
+clave y una lista de nombres como valor (Lo retorna la función anterior)
+y además como segundo parámetro tendrá un string el cual
+representará el tipo de dato a evaluar (color_pelo, color_ojos, etc).
+
+Deberá recorrer cada key y cada valor (lista) que esta contenga para
+finalmente crear un string el cual será un mensaje que deberás
+imprimir formateado.
+Por ejemplo:
+"color_ojos Green: Black Widow | Hulk"
+
+Reutilizar la función 'guardar_archivo'. El archivo final deberá respetar
+el formato:
+heroes_segun_TipoDato.csv
+Donde:
+● TipoDato: es la key la cual indicará qué cosas se deben guardar
+en el archivo.
+Ejemplo:
+heroes_segun_color_pelo.csv (Agrupados por color de pelo)
+heroes_segun_color_ojos.csv (Agrupados por color de ojos)
+Esta función retorna True si salió todo bien, False caso contrario.
+"""
+
+def guardar_heroes_por_tipo(dict_tipos:dict, key_evaluar:str)->bool:
+    nombre_archivo = f"heroes_segun_{key_evaluar}.csv"
+    lista_formateada = []
+    
+    for clave, nombres in dict_tipos.items():
+        msj_formateado = f"{key_evaluar} {clave}: {' | '.join(nombres)}"
+        lista_formateada.append(msj_formateado)
+            
+            
+    if guardar_archivo(nombre_archivo,"\n".join(lista_formateada)):
+        return True
+    else:
+        return False
+    
+
+# set_tipos = obtener_lista_de_tipos(heroes,"inteligencia")
+# dict_tipos = obtener_heroes_por_tipo(heroes, set_tipos, "inteligencia")
+
+# print(guardar_heroes_por_tipo(dict_tipos, "inteligencia"))
+
+""" 
+6.6. Crear la función 'stark_listar_heroes_por_dato' la cual recibirá por
+parámetro la lista de héroes y un string que representará el tipo de
+dato a evaluar (color_pelo, color_ojos, etc). Dentro deberás reutilizar
+las funciones:
+A. 'obtener_lista_de_tipos'
+B. 'obtener_heroes_por_tipo'
+C. 'guardar_heroes_por_tipo'
+Pasando por parámetro lo que corresponda según la lógica de las
+funciones usadas.
+Esta función retornará True si pudo guardar el archivo, False caso
+contrario.
+"""
+
+def stark_listar_heroes_por_dato(lista_heroes:list, key_evaluar:str):
+    
+    set_tipos = obtener_lista_de_tipos(lista_heroes, key_evaluar)
+    dic_heroes_tipo = obtener_heroes_por_tipo(lista_heroes, set_tipos, key_evaluar)
+    
+    if guardar_heroes_por_tipo(dic_heroes_tipo, key_evaluar):
+        return True
+    else:
+        return False
+
+print(stark_listar_heroes_por_dato(heroes, "inteligencia"))
