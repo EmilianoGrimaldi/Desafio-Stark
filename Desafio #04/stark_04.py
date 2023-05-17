@@ -2,6 +2,8 @@
 from funciones_stark import *
 import re
 import json
+
+
 """
 1. Primera Parte
 1.1. Crear la función "imprimir_menu_desafio_5" que imprima el menú de
@@ -89,6 +91,8 @@ def leer_archivo(nombre_archivo:str):
         
     return contenido["heroes"]
 
+heroes = leer_archivo("Desafio #04\data_stark.json")
+
 """ 
 1.5. Crear la función 'guardar_archivo' la cual recibirá por parámetro un
 string que indicará el nombre con el cual se guardará el archivo junto
@@ -107,8 +111,8 @@ creado, conjuntamente con su extensión.
 def guardar_archivo(nombre_archivo:str, contenido:str):
     try:
         with open(nombre_archivo, "w") as archivo:
-            archivo.write(contenido)
-        
+            archivo.writelines(contenido)
+
         print(f"Se creó el archivo: {nombre_archivo}")
         return True
     except:
@@ -130,4 +134,93 @@ def capitalizar_palabras(string:str):
     
     return " ".join(palabras_capitalizadas)
 
-print(capitalizar_palabras("hola como estas amigo"))
+# print(capitalizar_palabras("hola como estas amigo"))
+
+""" 
+1.7. Crear la función 'obtener_nombre_capitalizado' la cual recibirá por
+parámetro un diccionario el cual representará a un héroe y devolverá
+un string el cual contenga su nombre formateado de la siguiente
+manera:
+Nombre: Venom
+Reutilizar 'capitalizar_palabras'
+"""
+
+def obtener_nombre_capitalizado(heroe:dict)->str:
+    nombre_capitalizado = capitalizar_palabras(heroe['nombre'])
+    return nombre_capitalizado
+
+"""
+1.8. Crear la función 'obtener_nombre_y_dato' la cual recibirá por
+parámetro un diccionario el cual representará a un héroe y una key
+(string) la cual representará la key del héroe a imprimir. La función
+devolverá un string el cual contenga el nombre y dato (key) del héroe a
+imprimir.
+El dato puede ser 'altura', 'fuerza', 'peso' O CUALQUIER OTRO DATO.
+El string resultante debe estar formateado al estilo: (suponiendo que la
+key es fuerza)
+Nombre: Venom | Fuerza: 500
+Reutilizar 'obtener_nombre_capitalizado'
+"""
+def obtener_nombre_y_dato(heroe:dict, key:str):
+    nombre = obtener_nombre_capitalizado(heroe)
+    nombre_dato = f"Nombre: {nombre:20s} | key: {heroe[key]}"
+    return nombre_dato
+
+
+# for heroe in heroes:
+#     print(obtener_nombre_y_dato(heroe,"altura"))
+
+""" 
+2.1. Crear la función 'es_genero' la cual recibirá por parámetro un
+diccionario que representará un héroe y un string el cual será usado
+para evaluar si el héroe coincide con el género buscado (El string
+puede ser M, F o NB). retornará True en caso de que cumpla, False
+caso contrario.
+"""
+
+def es_genero(heroe:dict, genero_buscado:str):
+    genero_buscado = genero_buscado.upper()
+    if genero_buscado == "M" or genero_buscado == "F" or genero_buscado == "NB":
+        if genero_buscado == heroe["genero"]:
+            return True
+    else:
+        return False
+    
+""" 
+2.2. Crear la función 'stark_guardar_heroe_genero' la cual recibira por
+parámetro la lista de héroes y un string el cual representará el género
+a evaluar (puede ser M o F). 
+Deberá imprimir solamente los héroes o
+heroínas que coincidan con el género pasado por parámetro y
+además, deberá guardar dichos nombres en un archivo con extensión
+csv (cada nombre deberá ir separado por una coma)
+Reutilizar las funciones 'es_genero', 'obtener_nombre_capitalizado',
+'imprimir_dato' y 'guardar_archivo'.
+En el caso de 'guardar_archivo', cuando se llame a esta función el
+nombre de archivo a guardar deberá respetar el formato:
+heroes_M.csv, heroes_F.csv o heroes_NB según corresponda.
+La función retornará True si pudo guardar el archivo, False caso
+contrario.
+"""
+def stark_guardar_heroe_genero(lista_heroes:list, genero_evaluar:str):
+    nombres_filtrados = []
+    
+    for heroe in lista_heroes:
+        if es_genero(heroe,genero_evaluar):
+            match genero_evaluar:
+                case "M":
+                    nombre_archivo = "heroes_M.csv"
+                    nombre_capitalizado = obtener_nombre_capitalizado(heroe)
+                    nombres_filtrados.append(nombre_capitalizado)
+                    imprimir_dato(nombre_capitalizado)
+                case "F":
+                    nombre_archivo = "heroes_F.csv"
+                    nombre_capitalizado = obtener_nombre_capitalizado(heroe)
+                    nombres_filtrados.append(nombre_capitalizado)
+                    imprimir_dato(nombre_capitalizado)
+   
+    if guardar_archivo(nombre_archivo,"\n".join(nombres_filtrados)):
+        return True
+    else:
+        return False
+print(stark_guardar_heroe_genero(heroes,"F"))
