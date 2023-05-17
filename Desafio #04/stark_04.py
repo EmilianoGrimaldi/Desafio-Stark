@@ -1,12 +1,9 @@
 #FUNCIONES
 from funciones_stark import *
 from funciones_calculos_stark import *
+import os
 import re
 import json
-
-
-
-
 
 """
 1. Primera Parte
@@ -17,7 +14,7 @@ Reutilizar la función 'imprimir_dato' realizada en una práctica anterior.
 """
 
 def imprimir_menu_desafio_5()->None:
-    
+    imprimir_dato("         --------------- STARK MARVEL APP 5 ---------------")
     imprimir_dato(" A -> Imprimir por consola el nombre de cada superhéroe de género M\n B -> Imprimir por consola el nombre de cada superhéroe de género F\n C -> El superhéroe más alto de género M\n D -> El superhéroe más alto de género F\n E -> El superheroe mas bajo de genero M\n F -> El superheroe mas bajo de genero F\n G -> Altura promedio de los superheroes genero M\n H -> Altura promedio de los superheroes genero F\n I -> El nombre de los superheroes mas altos y mas bajos de cada genero\n J -> Superheroes con cada tipo de color de ojos\n K -> Superheroes con cada tipo de color de pelo\n L -> Superheroes con cada tipo de inteligencia\n M -> Superheroes agrupados por color de ojos\n N -> Superheroes agrupados por color de pelo\n O -> Superheroes agrupados por inteligencia\n Z -> Salir")
     
 """ 
@@ -46,42 +43,71 @@ programa. (usar if/elif o match según prefiera) Reutilizar las funciones
 con prefijo 'stark_' donde crea correspondiente
 """
 def stark_marvel_app_5(lista_heroes:list)->None:
-    
+
     while True:
-        if stark_menu_principal_desafio_5() != -1:
-            match stark_menu_principal_desafio_5().upper():
-                case "A":
+        os.system("cls")
+        match stark_menu_principal_desafio_5().upper():
+            case "A":
+                if stark_guardar_heroe_genero(lista_heroes, "M"):
                     pass
-                case "B":
+            case "B":
+                if stark_guardar_heroe_genero(lista_heroes, "F"):
                     pass
-                case "C":
+            case "C":
+                if stark_calcular_imprimir_guardar_heroe_genero(lista_heroes, "maximo", "altura", "M"):
                     pass
-                case "D":
+            case "D":
+                if stark_calcular_imprimir_guardar_heroe_genero(lista_heroes, "maximo", "altura", "F"):
                     pass
-                case "E":
+            case "E":
+                if stark_calcular_imprimir_guardar_heroe_genero(lista_heroes, "minimo", "altura", "M"):
                     pass
-                case "F":
+            case "F":
+                if stark_calcular_imprimir_guardar_heroe_genero(lista_heroes, "minimo", "altura", "F"):
                     pass
-                case "G":
+            case "G":
+                if stark_calcular_imprimir_guardar_promedio_altura_genero(lista_heroes, "M"):
                     pass
-                case "H":
+            case "H":
+                if stark_calcular_imprimir_guardar_promedio_altura_genero(lista_heroes, "F"):
                     pass
-                case "I":
+            case "I":
+                    heroe_max_o_min = calcular_max_min_dato_genero(lista_heroes,"maximo","altura","M")
+                    heroe_imprimir = obtener_nombre_y_dato(heroe_max_o_min,"altura")
+                    imprimir_dato(heroe_imprimir)
+
+                    heroe_max_o_min = calcular_max_min_dato_genero(lista_heroes,"maximo","altura","F")
+                    heroe_imprimir = obtener_nombre_y_dato(heroe_max_o_min,"altura")
+                    imprimir_dato(heroe_imprimir)
+
+                    heroe_max_o_min = calcular_max_min_dato_genero(lista_heroes,"minimo","altura","M")
+                    heroe_imprimir = obtener_nombre_y_dato(heroe_max_o_min,"altura")
+                    imprimir_dato(heroe_imprimir)
+
+                    heroe_max_o_min = calcular_max_min_dato_genero(lista_heroes,"minimo","altura","F")
+                    heroe_imprimir = obtener_nombre_y_dato(heroe_max_o_min,"altura")
+                    imprimir_dato(heroe_imprimir)
+            case "J":
+                if stark_calcular_cantidad_por_tipo(lista_heroes, "color_ojos"):
                     pass
-                case "J":
+            case "K":
+                if stark_calcular_cantidad_por_tipo(lista_heroes, "color_pelo"):
                     pass
-                case "K":
+            case "L":
+                if stark_calcular_cantidad_por_tipo(lista_heroes, "inteligencia"):
                     pass
-                case "L":
+            case "M":
+                if stark_listar_heroes_por_dato(lista_heroes, "color_ojos"):
                     pass
-                case "M":
+            case "N":
+                if stark_listar_heroes_por_dato(lista_heroes, "color_pelo"):
                     pass
-                case "N":
+            case "O":
+                if stark_listar_heroes_por_dato(lista_heroes, "inteligencia"):
                     pass
-                case "O":
-                    pass
-                case "Z":
-                    break
+            case "Z":
+                break
+        os.system("pause")
                 
 """ 
 1.4. Crear la función 'leer_archivo' la cual recibirá por parámetro un string
@@ -94,12 +120,6 @@ def leer_archivo(nombre_archivo:str)->list:
         contenido = json.load(archivo)
         
     return contenido["heroes"]
-
-heroes = leer_archivo("Desafio #04\data_stark.json")
-
-stark_normalizar_datos(heroes,"altura",float)
-stark_normalizar_datos(heroes,"peso",float)
-stark_normalizar_datos(heroes,"fuerza",int)
 
 """ 
 1.5. Crear la función 'guardar_archivo' la cual recibirá por parámetro un
@@ -142,7 +162,6 @@ def capitalizar_palabras(string:str)->str:
     
     return " ".join(palabras_capitalizadas)
 
-# print(capitalizar_palabras("hola como estas amigo"))
 
 """ 
 1.7. Crear la función 'obtener_nombre_capitalizado' la cual recibirá por
@@ -174,9 +193,6 @@ def obtener_nombre_y_dato(heroe:dict, key:str)->str:
     nombre_dato = f"Nombre: {nombre:20s} | {key}: {heroe[key]}"
     return nombre_dato
 
-
-# for heroe in heroes:
-#     print(obtener_nombre_y_dato(heroe,"altura"))
 
 """ 
 2.1. Crear la función 'es_genero' la cual recibirá por parámetro un
@@ -226,13 +242,12 @@ def stark_guardar_heroe_genero(lista_heroes:list, genero_evaluar:str) -> bool:
                     nombre_capitalizado = obtener_nombre_capitalizado(heroe)
                     nombres_filtrados.append(nombre_capitalizado)
                     imprimir_dato(nombre_capitalizado)
-   
-    if guardar_archivo(nombre_archivo,"\n".join(nombres_filtrados)):
+    
+    if guardar_archivo(nombre_archivo, "\n".join(nombres_filtrados)):
         return True
     else:
         return False
     
-# print(stark_guardar_heroe_genero(heroes,"F"))
 
 """ 
 3.1. Basandote en la función 'calcular_min', crear la función
@@ -269,7 +284,6 @@ def calcular_min_genero(lista_heroes:list,key_heroe:str, genero:str)->dict:
         print("Error! Los parametros son invalidos")
         
 
-# print(calcular_min_genero(heroes, "altura", "F"))
 
 """ 
 3.2. Basandote en la función 'calcular_max', crear la función
@@ -305,7 +319,6 @@ def calcular_max_genero(lista_heroes:list,key_heroe:str, genero:str)->dict:
     else:
         print("Error! Los parametros son invalidos")
 
-# print(calcular_max_genero(heroes, "altura", "F"))
 
 """ 
 3.3. Basandote en la funcion 'calcular_max_min_dato', crear una funcion
@@ -336,7 +349,6 @@ def calcular_max_min_dato_genero(lista_heroes:list,calculo_realizar:str,key_hero
     else:
         print("Error! Los parametros son invalidos")
 
-# print(calcular_max_min_dato_genero(heroes,"minimo","altura","F"))
 
 """ 
 3.4. Basandote en la función 'stark_calcular_imprimir_heroe' crear la
@@ -384,7 +396,6 @@ def stark_calcular_imprimir_guardar_heroe_genero(lista_heroes:list,calculo_reali
         return False
     
 
-# stark_calcular_imprimir_guardar_heroe_genero(heroes,"minimo", "peso", "M")
 
 """ 
 4.1. Basandote en la función 'sumar_dato_heroe', crear la función llamada
@@ -418,7 +429,6 @@ def sumar_dato_heroe_genero(lista_heroes:list,key_heroe:str, genero:str)->int:
         print("Error! Los parametros son invalidos")
         
 
-# print(sumar_dato_heroe_genero(heroes,"fuerza","F"))
 
 """ 
 4.2. Crear la función 'cantidad_heroes_genero' la cual recibirá por
@@ -437,7 +447,6 @@ def cantidad_heroes_genero(lista_heroes:list, genero:str) -> int:
     
     return contador_genero
 
-# print(cantidad_heroes_genero(heroes,"F"))
 
 """ 
 4.3. Basandote en la función 'calcular_promedio', crear la función
@@ -454,13 +463,12 @@ def calcular_promedio_genero(lista_heroes:list,key_heroe_calcular:str,genero:str
     
     if len(lista_heroes) > 0 and type(key_heroe_calcular) == str and type(genero) == str:
         total = sumar_dato_heroe_genero(lista_heroes,key_heroe_calcular,genero)
-        divisor = cantidad_heroes_genero(heroes,genero)
+        divisor = cantidad_heroes_genero(lista_heroes,genero)
         resultado = dividir(total,divisor)
         return f"{resultado:.2f}"      
     else:
         print("Error! Los parametros son invalidos")
 
-# print(calcular_promedio_genero(heroes, "fuerza", "F"))
 
 """ 
 4.4. Basandote en la función ‘stark_calcular_imprimir_promedio_altura',
@@ -507,7 +515,6 @@ def stark_calcular_imprimir_guardar_promedio_altura_genero(lista_heroes:list, ge
             return False
         
 
-# print(stark_calcular_imprimir_guardar_promedio_altura_genero(heroes, "F"))
 
 """ 
 5.1. Crear la función 'calcular_cantidad_tipo' la cual recibirá por parámetro
@@ -534,7 +541,7 @@ Reutilizar la función 'capitalizar_palabras' para capitalizar los valores
 de las keys.
 """
 
-def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str)-> str:
+def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str)-> dict:
     
     
     if len(lista_heroes) > 0:
@@ -554,7 +561,6 @@ def calcular_cantidad_tipo(lista_heroes:list, tipo_key:str)-> str:
         diccionario_formateado = json.dumps(diccionario_error,indent = 4)
         print(diccionario_formateado)
     
-# print(calcular_cantidad_tipo(heroes,"color_ojos"))
 
 """ 
 5.2. Crear la función 'guardar_cantidad_heroes_tipo' la cual recibirá como
@@ -596,9 +602,6 @@ def guardar_cantidad_heroes_tipo(tipoDato:dict, dato:str)->bool:
     else:
         return False
 
-# dato = "inteligencia"
-# heroe = json.loads(calcular_cantidad_tipo(heroes,dato))
-# print(guardar_cantidad_heroes_tipo(heroe,dato))
 
 """ 
 5.3. Crear la función 'stark_calcular_cantidad_por_tipo' la cual recibirá por
@@ -613,16 +616,11 @@ contrario.
 def stark_calcular_cantidad_por_tipo(lista_heroes:list, key:str)->bool:
     
     cantidad_tipo = calcular_cantidad_tipo(lista_heroes,key)
-    convertir_json_dic = json.loads(cantidad_tipo)
     
-    if guardar_cantidad_heroes_tipo(convertir_json_dic,key):
+    if guardar_cantidad_heroes_tipo(cantidad_tipo,key):
         return True
     else:
         return False
-    
-# print(stark_calcular_cantidad_por_tipo(heroes, "color_ojos"))
-# print(stark_calcular_cantidad_por_tipo(heroes, "color_pelo"))
-# print(stark_calcular_cantidad_por_tipo(heroes, "inteligencia"))
 
 """
 6.1. Crear la función 'obtener_lista_de_tipos' la cual recibirá por parámetro
@@ -759,8 +757,6 @@ def obtener_heroes_por_tipo(lista_heroes:list, set_tipos:set, key_evaluar:str)->
                 
     return dic_tipos_nombres
 
-# set_tipos = obtener_lista_de_tipos(heroes,"inteligencia")
-# print(obtener_heroes_por_tipo(heroes, set_tipos, "inteligencia"))
 
 """ 
 6.5. Crear la funcion 'guardar_heroes_por_tipo' la cual recibira por
@@ -802,11 +798,6 @@ def guardar_heroes_por_tipo(dict_tipos:dict, key_evaluar:str)->bool:
         return False
     
 
-# set_tipos = obtener_lista_de_tipos(heroes,"inteligencia")
-# dict_tipos = obtener_heroes_por_tipo(heroes, set_tipos, "inteligencia")
-
-# print(guardar_heroes_por_tipo(dict_tipos, "inteligencia"))
-
 """ 
 6.6. Crear la función 'stark_listar_heroes_por_dato' la cual recibirá por
 parámetro la lista de héroes y un string que representará el tipo de
@@ -830,5 +821,3 @@ def stark_listar_heroes_por_dato(lista_heroes:list, key_evaluar:str):
         return True
     else:
         return False
-
-print(stark_listar_heroes_por_dato(heroes, "inteligencia"))
